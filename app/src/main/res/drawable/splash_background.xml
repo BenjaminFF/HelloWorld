@@ -3,8 +3,4 @@
     <item
         android:drawable="@color/pistachio">
     </item>
-    <item
-        android:gravity="center"
-        android:drawable="@drawable/helloworld">
-    </item>
 </layer-list>

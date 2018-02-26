@@ -6,6 +6,7 @@
     android:viewportHeight="1024">
 
     <path
+        android:name="word1"
         android:fillColor="#FFFFFF"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="1"
