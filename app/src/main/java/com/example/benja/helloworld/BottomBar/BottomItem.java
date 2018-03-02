@@ -5,12 +5,15 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.benja.helloworld.R;
 
 /**
  * Created by benja on 2018/3/1.
@@ -25,6 +28,8 @@ public class BottomItem extends View {
     private float mSize;
 
     private String Title;
+
+    private int mId;
 
     private boolean State=false;
 
@@ -54,9 +59,10 @@ public class BottomItem extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (State){
-            un_icon.setBounds(bounds);
+            icon.setBounds(bounds);
             icon.draw(canvas);
         }else {
+            icon.setColorFilter(getResources().getColor(R.color.pistachio,null), PorterDuff.Mode.SRC_ATOP);
             un_icon.setBounds(bounds);
             un_icon.draw(canvas);
         }
@@ -70,7 +76,7 @@ public class BottomItem extends View {
         icon=getResources().getDrawable(resId,null);
     }
 
-    public void setState(boolean state) {
+    public void setSelected(boolean state) {
         State = state;
         invalidate();
     }
@@ -85,5 +91,17 @@ public class BottomItem extends View {
 
     public void setmSize(float mSize) {
         this.mSize = mSize;
+    }
+
+    public void setId(int mId) {
+        this.mId = mId;
+    }
+
+    public int getId(){
+        return mId;
+    }
+
+    public boolean isSelected(){
+        return State;
     }
 }

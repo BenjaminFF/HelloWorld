@@ -8,7 +8,7 @@
     tools:context="com.example.benja.helloworld.MainActivity">
 
     <com.example.benja.helloworld.BottomBar.BottomBar
-        android:id="@+id/button"
+        android:id="@+id/BottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:elevation="10dp"

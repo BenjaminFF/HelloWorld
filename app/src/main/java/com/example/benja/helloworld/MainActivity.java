@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.benja.helloworld.BottomBar.BottomBar;
+import com.example.benja.helloworld.BottomBar.OnTabSelectedListener;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -21,6 +24,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomBar bottomBar=findViewById(R.id.BottomBar);
+        bottomBar.setTabSelectedListener(new OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int TabId) {
+                switch (TabId){
+                    case R.id.tab_all:
+                        Log.i("test","tab_all");
+                        break;
+                    case R.id.tab_idea:
+                        Log.i("test","tab_idea");
+                        break;
+                    case R.id.tab_star:
+                        Log.i("test","tab_star");
+                        break;
+                }
+            }
+        });
     }
-
 }

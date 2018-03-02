@@ -6,6 +6,7 @@ import android.content.res.XmlResourceParser;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * Created by benja on 2018/3/1.
  */
 
-public class BottomBar extends LinearLayout {
+public class BottomBar extends LinearLayout{
 
     private int items_xml;
 
@@ -28,6 +29,9 @@ public class BottomBar extends LinearLayout {
     private ArrayList<BottomItem> items;
 
     private BottomItem item=null;
+
+    private OnTabSelectedListener tabSelectedListener;
+
     public BottomBar(Context context) {
         super(context);
     }
@@ -60,6 +64,7 @@ public class BottomBar extends LinearLayout {
                             bottomItem.setUn_icon(parser.getAttributeResourceValue(null,"un_icon",0));
                             bottomItem.setIcon(parser.getAttributeResourceValue(null,"icon",0));
                             bottomItem.setTitle(parser.getAttributeValue(null,"title"));
+                            bottomItem.setId(parser.getIdAttributeResourceValue(-1));
                             items.add(bottomItem);
                         }
                         break;
@@ -84,5 +89,28 @@ public class BottomBar extends LinearLayout {
             addView(items.get(i));
         }
         invalidate();
+
+        for(int i=0;i<items.size();i++){
+            final BottomItem item=items.get(i);
+           item.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (item.isSelected()){
+                        return;
+                    }
+                    for(int j=0;j<items.size();j++){
+                        items.get(j).setSelected(false);
+                    }
+                    item.setSelected(true);
+                    if (tabSelectedListener!=null){
+                        tabSelectedListener.onTabSelected(item.getId());
+                    }
+                }
+            });
+        }
+    }
+
+    public void setTabSelectedListener(OnTabSelectedListener listener){
+        tabSelectedListener=listener;
     }
 }
