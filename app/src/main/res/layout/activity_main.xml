@@ -2,17 +2,21 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bt="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.benja.helloworld.MainActivity">
 
-    <com.example.benja.helloworld.BottomItem
+    <com.example.benja.helloworld.BottomBar.BottomBar
         android:id="@+id/button"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="10dp"
+        android:background="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:items_xml="@xml/items"
+        app:icon_size="36dp"
+        app:middle_icon_size="28dp"
+        />
 
 </android.support.constraint.ConstraintLayout>

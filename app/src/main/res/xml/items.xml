@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        size="50"
+        un_icon="@drawable/t_star"
+        icon="@drawable/t_star"
+        title="Favorite"/>
+    <tab
+        size="50"
+        un_icon="@drawable/all"
+        icon="@drawable/all"
+        title="All"/>
+    <tab
+        size="50"
+        un_icon="@drawable/t_idea"
+        icon="@drawable/t_idea"
+        title="Light"/>
+</tabs>
+
+<!--图标1024*1024
+画板1500*1500
+描边10pt 大小400pt
+文字样式：第2排-->
