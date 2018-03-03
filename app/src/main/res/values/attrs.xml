@@ -4,5 +4,7 @@
         <attr name="items_xml" format="integer"/>
         <attr name="icon_size" format="dimension"/>
         <attr name="middle_icon_size" format="dimension"/>
+        <attr name="bb_active_color" format="color"/>
+            <attr name="bb_unactive_color" format="color"/>
     </declare-styleable>
 </resources>

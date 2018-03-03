@@ -2,20 +2,29 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bt="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.benja.helloworld.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/main_frame"
+        app:layout_constraintBottom_toTopOf="@+id/BottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <com.example.benja.helloworld.BottomBar.BottomBar
         android:id="@+id/BottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:elevation="10dp"
-        android:background="#ffffff"
+        android:background="@color/baby_powder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:items_xml="@xml/items"
-        app:icon_size="36dp"
+        app:bb_active_color="@color/metallic_seaweed"
+        app:bb_unactive_color="@color/grey_blue"
+        app:icon_size="32dp"
         app:middle_icon_size="28dp"
         />
 

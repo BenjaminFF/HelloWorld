@@ -4,4 +4,15 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="pistachio">#9AD868</color>
+    <color name="sea_blue">#05668d</color>
+    <color name="metallic_seaweed">#028090</color>
+    <color name="persian_green">#00a896</color>
+    <color name="caribbean_green">#02C39A</color>
+    <color name="white">#ffffff</color>
+    <color name="baby_powder">#FDFFFC</color>
+    <color name="antiflash_white">#EDF2F4</color>
+    <color name="platinum">#E5E5E5</color>
+    <color name="pale_silver">#C6C5B9</color>
+    <color name="silver">#BFC0C0</color>
+    <color name="grey_blue">#8D99AE</color>
 </resources>

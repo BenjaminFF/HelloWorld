@@ -26,6 +26,8 @@ public class BottomBar extends LinearLayout{
 
     private Float icon_size,middle_icon_size;
 
+    private int active_color,unactive_color;
+
     private ArrayList<BottomItem> items;
 
     private BottomItem item=null;
@@ -47,6 +49,9 @@ public class BottomBar extends LinearLayout{
         items_xml=a.getResourceId(R.styleable.BottomBar_items_xml,0);
         icon_size=a.getDimension(R.styleable.BottomBar_icon_size,MiscUtils.dpToPixel(context,30));
         middle_icon_size=a.getDimension(R.styleable.BottomBar_middle_icon_size,MiscUtils.dpToPixel(context,30));
+        active_color=a.getResourceId(R.styleable.BottomBar_bb_active_color,-1);
+        unactive_color=a.getResourceId(R.styleable.BottomBar_bb_unactive_color,-1);
+        Log.i("test",active_color+"");
         a.recycle();
 
         XmlResourceParser parser=getResources().getXml(items_xml);
@@ -60,6 +65,8 @@ public class BottomBar extends LinearLayout{
                     case XmlPullParser.START_TAG:
                         if ("tab".equals(parser.getName())){
                             BottomItem bottomItem=new BottomItem(context);
+                            bottomItem.setActive_color(active_color);
+                            bottomItem.setUnactive_color(unactive_color);
                             bottomItem.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1));
                             bottomItem.setUn_icon(parser.getAttributeResourceValue(null,"un_icon",0));
                             bottomItem.setIcon(parser.getAttributeResourceValue(null,"icon",0));
@@ -108,6 +115,7 @@ public class BottomBar extends LinearLayout{
                 }
             });
         }
+        items.get(0).setSelected(true);
     }
 
     public void setTabSelectedListener(OnTabSelectedListener listener){

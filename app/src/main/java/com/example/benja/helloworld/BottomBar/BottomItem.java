@@ -33,6 +33,8 @@ public class BottomItem extends View {
 
     private boolean State=false;
 
+    private int active_color,unactive_color;
+
     public BottomItem(Context context) {
         super(context);
         bounds=new Rect();
@@ -59,10 +61,11 @@ public class BottomItem extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (State){
+            icon.setColorFilter(getResources().getColor(active_color,null), PorterDuff.Mode.SRC_ATOP);
             icon.setBounds(bounds);
             icon.draw(canvas);
         }else {
-            icon.setColorFilter(getResources().getColor(R.color.pistachio,null), PorterDuff.Mode.SRC_ATOP);
+            un_icon.setColorFilter(getResources().getColor(unactive_color,null), PorterDuff.Mode.SRC_ATOP);
             un_icon.setBounds(bounds);
             un_icon.draw(canvas);
         }
@@ -103,5 +106,13 @@ public class BottomItem extends View {
 
     public boolean isSelected(){
         return State;
+    }
+
+    public void setActive_color(int active_color) {
+        this.active_color = active_color;
+    }
+
+    public void setUnactive_color(int unactive_color) {
+        this.unactive_color = unactive_color;
     }
 }

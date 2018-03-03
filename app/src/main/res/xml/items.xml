@@ -2,8 +2,8 @@
 <tabs>
     <tab
         id="@+id/tab_star"
-        un_icon="@drawable/t_star"
-        icon="@drawable/t_star"
+        un_icon="@drawable/star"
+        icon="@drawable/star_fill"
         />
     <tab
         id="@+id/tab_all"
@@ -12,12 +12,12 @@
         />
     <tab
         id="@+id/tab_idea"
-        un_icon="@drawable/t_idea"
-        icon="@drawable/t_idea"
+        un_icon="@drawable/idea"
+        icon="@drawable/idea_fill"
         />
 </tabs>
 
 <!--图标1024*1024
 画板1500*1500
-描边10pt 大小400pt
+描边20pt 大小400pt
 文字样式：第2排-->

@@ -1,30 +1,29 @@
 package com.example.benja.helloworld;
 
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.example.benja.helloworld.BottomBar.BottomBar;
 import com.example.benja.helloworld.BottomBar.OnTabSelectedListener;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static String TAG="test";
+    BottomBar bottomBar;
+    Fragment appFragment,ideaFragment,starFragment;
+    FragmentManager fragmentManager;
+    FrameLayout main_frame;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomBar bottomBar=findViewById(R.id.BottomBar);
+        bottomBar=findViewById(R.id.BottomBar);
         bottomBar.setTabSelectedListener(new OnTabSelectedListener() {
             @Override
             public void onTabSelected(int TabId) {
@@ -41,5 +40,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        main_frame=findViewById(R.id.main_frame);
+
     }
 }
