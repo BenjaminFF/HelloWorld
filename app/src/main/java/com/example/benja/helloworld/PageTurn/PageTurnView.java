@@ -1,10 +1,12 @@
 package com.example.benja.helloworld.PageTurn;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Region;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -17,11 +19,83 @@ public class PageTurnView extends View{
 
     private Point a,f,g,e,h,c,j,b,k,i,d;
 
-    private float mWidth,mHeight;
+    private int mWidth,mHeight;
+
+    private Bitmap bitmapA;
+    private Bitmap bitmapB;
+    private Bitmap bitmapC;
+
+    private Paint mPaintA;
+    private Paint mPaintB;
+    private Paint mPaintC;
 
     private Path pathA;
+    private Path pathB;
+    private Path pathC;
 
-    private Paint paintA;
+    public PageTurnView(Context context) {
+        super(context);
+        initView();
+    }
+
+    public PageTurnView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initView();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mWidth=MeasureSpec.getSize(widthMeasureSpec);
+        mHeight=MeasureSpec.getSize(heightMeasureSpec);
+
+        this.bitmapA = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
+        this.bitmapB = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
+        this.bitmapC = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
+        drawContentInBitmapA();
+        drawContentInBitmapB();
+        drawContentInBitmapC();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        a.x=mWidth/2-300;
+        a.y=mHeight/2+300;
+       drawContentA(canvas);
+       drawContentC(canvas);
+    }
+
+    private void initView(){
+        a=new Point();
+        f=new Point();
+        g=new Point();
+        e=new Point();
+        h=new Point();
+        c=new Point();
+        j=new Point();
+        b=new Point();
+        k=new Point();
+        i=new Point();
+        d=new Point();
+
+        pathA=new Path();
+        pathB=new Path();
+        pathC=new Path();
+
+        mPaintA=new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintA.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintA.setColor(Color.BLACK);
+
+        mPaintB=new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintB.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintB.setColor(Color.GREEN);
+
+        mPaintC=new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintC.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaintC.setColor(Color.BLUE);
+    }
 
     private void CalPointByLowRightA(Point a) {         //右下角翻页计算
         f.x = mWidth;
@@ -80,51 +154,65 @@ public class PageTurnView extends View{
         return pathA;
     }
 
-    private void initView(){
-        a=new Point();
-        f=new Point();
-        g=new Point();
-        e=new Point();
-        h=new Point();
-        c=new Point();
-        j=new Point();
-        b=new Point();
-        k=new Point();
-        i=new Point();
-        d=new Point();
 
-        pathA=new Path();
-        paintA=new Paint();
-        paintA.setColor(Color.BLACK);
-        paintA.setStyle(Paint.Style.STROKE);
+    private Path getPathDefault() {
+        this.pathA.reset();
+        this.pathA.lineTo(0, this.mHeight);
+        this.pathA.lineTo(this.mWidth, this.mHeight);
+        this.pathA.lineTo(this.mWidth, 0);
+        this.pathA.close();
+        return this.pathA;
     }
 
-    public PageTurnView(Context context) {
-        super(context);
-        initView();
+    private void drawContentInBitmapA(){
+        Canvas canvas=new Canvas();
+        canvas.drawPath(getPathDefault(),mPaintA);
+        /*在这里写BitmapA的内容*/
     }
 
-    public PageTurnView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initView();
+    private void drawContentInBitmapB(){
+        Canvas canvas=new Canvas();
+        canvas.drawPath(getPathDefault(),mPaintB);
+        /*在这里写BitmapB的内容*/
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth=MeasureSpec.getSize(widthMeasureSpec);
-        mHeight=MeasureSpec.getSize(heightMeasureSpec);
+    private void drawContentInBitmapC(){
+        Canvas canvas=new Canvas();
+        canvas.drawPath(getPathDefault(),mPaintC);
+        /*在这里写BitmapC的内容*/
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    private void drawContentA(Canvas canvas){  //把A区域画在屏幕上
+        canvas.save();
+        canvas.clipPath(getPathAFromLowRight());
+        canvas.drawBitmap(bitmapA,0,0,null);
+        canvas.restore();
+    }
 
-        a.x=mWidth/2-300;
-        a.y=mHeight/2+300;
-        CalPointByLowRightA(a);
-        pathA = getPathAFromLowRight();
-        canvas.drawPath(pathA,paintA);
-        canvas.drawLine(d.x,d.y,i.x,i.y,paintA);
+    private void drawContentC(Canvas canvas){  //把C区域画在屏幕上
+        canvas.save();
+        canvas.clipPath(getPathAFromLowRight());
+        canvas.clipPath(getPathC(), Region.Op.DIFFERENCE);  //C区域为A区域-A区域与abdi区域的交集
+        canvas.drawBitmap(bitmapC,0,0,null);
+        canvas.restore();
+    }
+
+    private void drawContentB(Canvas canvas,Path path){  //把A的部分画在屏幕上
+        canvas.save();
+        canvas.clipPath(getPathAFromLowRight());
+        canvas.clipPath(getPathC(), Region.Op.UNION);
+        canvas.drawBitmap(bitmapB,0,0,null);
+        canvas.restore();
+    }
+
+    private Path getPathC(){
+        pathC.reset();
+        pathC.moveTo(this.i.x, this.i.y);
+        pathC.lineTo(this.k.x, this.k.y);
+        pathC.lineTo(this.a.x, this.a.y);
+        pathC.lineTo(this.b.x, this.b.y);
+        pathC.lineTo(this.d.x, this.d.y);
+        pathC.close();
+        return pathC;
     }
 }
