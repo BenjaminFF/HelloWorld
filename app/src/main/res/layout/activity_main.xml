@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:id="@+id/main_frame"
-        app:layout_constraintBottom_toTopOf="@+id/BottomBar"
+        android:layout_above="@+id/BottomBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,7 +20,7 @@
         android:layout_height="60dp"
         android:elevation="10dp"
         android:background="@color/baby_powder"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_alignParentBottom="true"
         app:items_xml="@xml/items"
         app:bb_active_color="@color/metallic_seaweed"
         app:bb_unactive_color="@color/grey_blue"
@@ -28,4 +28,4 @@
         app:middle_icon_size="28dp"
         />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

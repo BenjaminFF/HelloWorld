@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.benja.helloworld.MainFragment.AppFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.example.benja.helloworld.PageTurn.PageTurnView
+        android:background="@color/antiflash_white"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="App Fragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
