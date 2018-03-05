@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
 import android.graphics.Region;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -30,8 +32,9 @@ public class PageTurnView extends View{
     private Paint mPaintC;
 
     private Path pathA;
-    private Path pathB;
     private Path pathC;
+
+    private float curX,curY,lastX,lastY;
 
     public PageTurnView(Context context) {
         super(context);
@@ -61,10 +64,34 @@ public class PageTurnView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        a.x=mWidth/2-300;
-        a.y=mHeight/2+300;
-       drawContentA(canvas);
-       drawContentC(canvas);
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0,Paint.FILTER_BITMAP_FLAG|Paint.ANTI_ALIAS_FLAG));
+        drawContentA(canvas);
+        drawContentC(canvas);
+        drawContentB(canvas);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                lastX=event.getX();
+                lastY=event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curX=event.getX();
+                curY=event.getY();
+                a.x=curX;
+                a.y=curY;
+                CalPointByLowRightA(a);
+                pathA=getPathAFromLowRight();
+                pathC=getPathC();
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                invalidate();
+                break;
+        }
+        return true;
     }
 
     private void initView(){
@@ -81,20 +108,19 @@ public class PageTurnView extends View{
         d=new Point();
 
         pathA=new Path();
-        pathB=new Path();
         pathC=new Path();
 
-        mPaintA=new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintA.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintA.setColor(Color.BLACK);
+        mPaintA=new Paint();
+        mPaintA.setStyle(Paint.Style.FILL);
+        mPaintA.setColor(Color.GREEN);
 
-        mPaintB=new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintB.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintB.setColor(Color.GREEN);
+        mPaintB=new Paint();
+        mPaintB.setStyle(Paint.Style.FILL);
+        mPaintB.setColor(Color.YELLOW);
 
-        mPaintC=new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintC.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintC.setColor(Color.BLUE);
+        mPaintC=new Paint();
+        mPaintC.setStyle(Paint.Style.FILL);
+        mPaintC.setColor(Color.LTGRAY);
     }
 
     private void CalPointByLowRightA(Point a) {         //右下角翻页计算
@@ -165,42 +191,42 @@ public class PageTurnView extends View{
     }
 
     private void drawContentInBitmapA(){
-        Canvas canvas=new Canvas();
+        Canvas canvas=new Canvas(bitmapA);
         canvas.drawPath(getPathDefault(),mPaintA);
         /*在这里写BitmapA的内容*/
     }
 
     private void drawContentInBitmapB(){
-        Canvas canvas=new Canvas();
+        Canvas canvas=new Canvas(bitmapB);
         canvas.drawPath(getPathDefault(),mPaintB);
         /*在这里写BitmapB的内容*/
     }
 
     private void drawContentInBitmapC(){
-        Canvas canvas=new Canvas();
+        Canvas canvas=new Canvas(bitmapC);
         canvas.drawPath(getPathDefault(),mPaintC);
         /*在这里写BitmapC的内容*/
     }
 
     private void drawContentA(Canvas canvas){  //把A区域画在屏幕上
         canvas.save();
-        canvas.clipPath(getPathAFromLowRight());
+        canvas.clipPath(pathA);
         canvas.drawBitmap(bitmapA,0,0,null);
         canvas.restore();
     }
 
     private void drawContentC(Canvas canvas){  //把C区域画在屏幕上
         canvas.save();
-        canvas.clipPath(getPathAFromLowRight());
-        canvas.clipPath(getPathC(), Region.Op.DIFFERENCE);  //C区域为A区域-A区域与abdi区域的交集
+        canvas.clipPath(pathA);
+        canvas.clipPath(getPathC(), Region.Op.REVERSE_DIFFERENCE);  //C区域为A区域-A区域与abdi区域的交集
         canvas.drawBitmap(bitmapC,0,0,null);
         canvas.restore();
     }
 
-    private void drawContentB(Canvas canvas,Path path){  //把A的部分画在屏幕上
+    private void drawContentB(Canvas canvas){  //把A的部分画在屏幕上
         canvas.save();
-        canvas.clipPath(getPathAFromLowRight());
-        canvas.clipPath(getPathC(), Region.Op.UNION);
+        canvas.clipPath(pathA,Region.Op.DIFFERENCE);
+        canvas.clipPath(pathC, Region.Op.DIFFERENCE);
         canvas.drawBitmap(bitmapB,0,0,null);
         canvas.restore();
     }
