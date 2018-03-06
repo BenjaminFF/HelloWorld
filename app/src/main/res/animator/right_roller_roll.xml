@@ -3,13 +3,13 @@
     android:ordering="together"
     >
     <objectAnimator
-        android:interpolator="@android:interpolator/decelerate_cubic"
-        android:valueTo="360"
-        android:valueFrom="0"
-        android:valueType="floatType"
-        android:duration="3000"
-        android:propertyName="rotation">
-    </objectAnimator>
+    android:interpolator="@android:interpolator/decelerate_cubic"
+    android:valueTo="300"
+    android:valueFrom="0"
+    android:valueType="floatType"
+    android:duration="3000"
+    android:propertyName="rotation">
+</objectAnimator>
     <objectAnimator
         android:interpolator="@android:interpolator/decelerate_cubic"
         android:valueTo="0"

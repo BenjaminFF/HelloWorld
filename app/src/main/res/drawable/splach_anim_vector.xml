@@ -3,9 +3,9 @@
     android:drawable="@drawable/cloveroll"
     >
     <target
-        android:animation="@animator/roller_roll"
-        android:name="roller"/>
+        android:animation="@animator/left_roller_roll"
+        android:name="left_roller"/>
     <target
-        android:animation="@animator/word_path"
-        android:name="roller_words"/>
+        android:animation="@animator/right_roller_roll"
+        android:name="right_roller"/>
 </animated-vector>
