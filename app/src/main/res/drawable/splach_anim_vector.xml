@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/hello"
+    android:drawable="@drawable/cloveroll"
     >
     <target
-        android:animation="@animator/word_path"
-        android:name="word1"/>
+        android:animation="@animator/roller_roll"
+        android:name="roller"/>
     <target
         android:animation="@animator/word_path"
-        android:name="word2"/>
-    <target
-        android:animation="@animator/word_path"
-        android:name="word3"/>
-    <target
-        android:animation="@animator/word_path"
-        android:name="word4"/>
-    <target
-        android:animation="@animator/word_path"
-        android:name="word5"/>
-    <target
-        android:animation="@animator/word_path"
-        android:name="word6"/>
-    <target
-        android:animation="@animator/word_path"
-        android:name="word7"/>
+        android:name="roller_words"/>
 </animated-vector>
