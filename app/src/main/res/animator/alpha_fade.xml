@@ -2,9 +2,9 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <objectAnimator
         android:valueFrom="0"
-        android:valueTo="255"
+        android:valueTo="1"
         android:valueType="floatType"
         android:duration="3000"
-        android:propertyName="trimPathEnd">
+        android:propertyName="fillAlpha">
     </objectAnimator>
 </set>

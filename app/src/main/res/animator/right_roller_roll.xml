@@ -15,7 +15,7 @@
         android:valueTo="0"
         android:valueFrom="-500"
         android:valueType="floatType"
-        android:duration="3000"
+        android:duration="2000"
         android:propertyName="translateX">
     </objectAnimator>
 </set>
