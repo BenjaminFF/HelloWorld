@@ -242,12 +242,16 @@ public class PageTurnView extends View{
                         a.x=x;
                         a.y=y;
                     }
+                    calcPoints(a,f);
+                    invalidate();
                     break;
                 case MIDDLE:
                     f.x=mWidth;
                     f.y=mHeight;
                     a.x=x;
                     a.y=mHeight-1;
+                    calcPoints(a,f);
+                    invalidate();
                     break;
                 case TOP:
                     f.x=mWidth;
@@ -256,10 +260,10 @@ public class PageTurnView extends View{
                         a.x=x;
                         a.y=y;
                     }
+                    calcPoints(a,f);
+                    invalidate();
                     break;
             }
-        calcPoints(a,f);
-        invalidate();
     }
     /*如果滑动距离大于最小滑动距离，就可以翻页*/
     private boolean canPageTurn(float x1,float y1,float x2,float y2){
