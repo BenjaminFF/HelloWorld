@@ -3,36 +3,7 @@
     android:drawable="@drawable/cloveroll"
     >
     <target
-        android:animation="@animator/left_roller_roll"
-        android:name="left_roller"/>
-    <target
-        android:animation="@animator/right_roller_roll"
-        android:name="right_roller"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="roller_container"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="left_leaf1"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="left_leaf2"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="left_leaf3"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="right_leaf1"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="right_leaf2"/>
-    <target
-        android:animation="@animator/alpha_render"
-        android:name="right_leaf3"/>
-    <target
-        android:animation="@animator/alpha_fade"
-        android:name="huge_leaf"/>
-    <target
-        android:animation="@animator/cloveroll_up"
-        android:name="cloveroll_words"/>
+    android:animation="@animator/alpha_fade"
+    android:name="huge_leaf"/>
+
 </animated-vector>

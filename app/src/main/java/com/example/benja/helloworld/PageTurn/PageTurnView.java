@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 /**
  * Created by benja on 2018/3/5.
@@ -36,14 +37,29 @@ public class PageTurnView extends View{
 
     private float curX,curY,lastX,lastY;
 
+    private int touchSlop;
+
+    private boolean turnState;
+
+    private enum PageDapArea{           //手指没有滑动只是点击时的Area
+        LEFT,MENU,LOWRIGHT,TOPRIGHT,MIDDLERIGHT
+    }
+
+    private enum PageMoveArea{         //手指满足滑动时的Area
+        TOP,MIDDLE,DOWN
+    }
+    private PageDapArea dapArea;
+
+    private PageMoveArea moveArea;
+
     public PageTurnView(Context context) {
         super(context);
-        initView();
+        initView(context);
     }
 
     public PageTurnView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initView(context);
     }
 
     @Override
@@ -76,17 +92,15 @@ public class PageTurnView extends View{
             case MotionEvent.ACTION_DOWN:
                 lastX=event.getX();
                 lastY=event.getY();
+                setArea(lastX,lastY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 curX=event.getX();
                 curY=event.getY();
-                a.x=curX;
-                a.y=curY;
-                CalPointByLowRightA(a);
-                pathA=getPathAFromLowRight();
-                pathC=getPathC();
-                invalidate();
-                break;
+                if (canPageTurn(curX,curY,lastX,lastY)){
+
+                }
+            break;
             case MotionEvent.ACTION_UP:
                 invalidate();
                 break;
@@ -94,7 +108,7 @@ public class PageTurnView extends View{
         return true;
     }
 
-    private void initView(){
+    private void initView(Context context){
         a=new Point();
         f=new Point();
         g=new Point();
@@ -121,11 +135,27 @@ public class PageTurnView extends View{
         mPaintC=new Paint();
         mPaintC.setStyle(Paint.Style.FILL);
         mPaintC.setColor(Color.LTGRAY);
+
+        touchSlop= ViewConfiguration.get(context).getScaledTouchSlop();
+
+        turnState=false;
+    }
+    
+    private void setArea(float x,float y){
+        if (x>0&&x<mWidth/3){
+            pageArea=PageArea.LEFT;
+        }else if (x>=mWidth/3&&x<=mWidth*2/3){
+            pageArea=PageArea.MENU;
+        }else {
+            if (y>mHeight/2){
+                pageArea=PageArea.LOWRIGHT;
+            }else {
+                pageArea=PageArea.TOPRIGHT;
+            }
+        }
     }
 
-    private void CalPointByLowRightA(Point a) {         //右下角翻页计算
-        f.x = mWidth;
-        f.y = mHeight;
+    private void calcPoints(Point a,Point f) {         //右下角翻页计算
 
         g.x = (a.x + f.x) / 2;
         g.y = (a.y + f.y) / 2;
@@ -165,6 +195,55 @@ public class PageTurnView extends View{
 
         i.x = (j.x + 2 * h.x + k.x) / 4;
         i.y = (2 * h.y + j.y + k.y) / 4;   //jhk做贝塞尔曲线，h为控制点，i为贝塞尔曲线的中点
+    }
+
+    /*计算c坐标来判断它的坐标是否小于0，小于0就重新计算a，因为书籍的左边是装订的*/
+    private float calcPointCX(float touchX,float touchY,Point f){
+
+        g.x = (touchX + f.x) / 2;
+        g.y = (touchY + f.y) / 2;
+
+        e.x = g.x - (f.y - g.y) * (f.y - g.y) / (f.x - g.x);
+        e.y = f.y;
+
+        return e.x - (f.x - e.x) / 2;
+    }
+
+    private void setTouchPoint(float x,float y){
+        if (isTurning()){              //如果正在翻页就不用判断了
+            switch (pageArea){
+                case LEFT:
+                    break;
+                case MENU:
+                    break;
+            }
+        }
+        if(calcPointCX(x,y,f)>0){
+            a.x=x;
+            a.y=y;
+            calcPoints(a,f);
+        }else {
+            calcPoints(a,f);
+        }
+        invalidate();
+    }
+    /*如果滑动距离大于最小滑动距离，就可以翻页*/
+    private boolean canPageTurn(float x1,float y1,float x2,float y2){
+        int distance=(int)Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+        if (distance>=touchSlop){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /*来判断是否正在翻页*/
+    private boolean isTurning(){
+        if (turnState){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private Path getPathAFromLowRight(){
