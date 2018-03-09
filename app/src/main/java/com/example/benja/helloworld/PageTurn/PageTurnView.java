@@ -39,14 +39,14 @@ public class PageTurnView extends View{
 
     private int touchSlop;
 
-    private boolean turnState;
+    private boolean isMoving;
 
     private enum PageDapArea{           //手指没有滑动只是点击时的Area
-        LEFT,MENU,LOWRIGHT,TOPRIGHT,MIDDLERIGHT
+        LEFT,MENU,LOWRIGHT,TOPRIGHT,MIDRIGHT
     }
 
     private enum PageMoveArea{         //手指满足滑动时的Area
-        TOP,MIDDLE,DOWN
+        TOP,MIDDLE,LOW
     }
     private PageDapArea dapArea;
 
@@ -81,9 +81,13 @@ public class PageTurnView extends View{
         super.onDraw(canvas);
 
         canvas.setDrawFilter(new PaintFlagsDrawFilter(0,Paint.FILTER_BITMAP_FLAG|Paint.ANTI_ALIAS_FLAG));
-        drawContentA(canvas);
-        drawContentC(canvas);
-        drawContentB(canvas);
+        if (!isMoving){
+            drawDefault(canvas);
+        }else {
+            drawContentA(canvas);
+            drawContentC(canvas);
+            drawContentB(canvas);
+        }
     }
 
     @Override
@@ -92,16 +96,23 @@ public class PageTurnView extends View{
             case MotionEvent.ACTION_DOWN:
                 lastX=event.getX();
                 lastY=event.getY();
-                setArea(lastX,lastY);
+                setDapArea(lastX,lastY);        //一开始就确定两个Area
+                setMoveArea(lastY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 curX=event.getX();
                 curY=event.getY();
-                if (canPageTurn(curX,curY,lastX,lastY)){
-
+                if (!isMoving){        //第一次判断手指滑动距离是否满足最小滑动距离
+                    if (canPageTurn(curX,curY,lastX,lastY)){  //不满足的话就一定是
+                        isMoving=true;                        //Dap操作
+                        updatePoints(curX,curY);
+                    }
+                }else {
+                    updatePoints(curX,curY);
                 }
             break;
             case MotionEvent.ACTION_UP:
+                isMoving=false;
                 invalidate();
                 break;
         }
@@ -138,20 +149,33 @@ public class PageTurnView extends View{
 
         touchSlop= ViewConfiguration.get(context).getScaledTouchSlop();
 
-        turnState=false;
+        isMoving=false;
+        moveArea=PageMoveArea.LOW;
     }
     
-    private void setArea(float x,float y){
+    private void setDapArea(float x,float y){
         if (x>0&&x<mWidth/3){
-            pageArea=PageArea.LEFT;
+            dapArea=PageDapArea.LEFT;
         }else if (x>=mWidth/3&&x<=mWidth*2/3){
-            pageArea=PageArea.MENU;
+            dapArea=PageDapArea.MENU;
         }else {
-            if (y>mHeight/2){
-                pageArea=PageArea.LOWRIGHT;
+            if (y>0&&y<mHeight/3){
+                dapArea=PageDapArea.TOPRIGHT;
+            }else if (y>=mHeight/3&&y<=mHeight*2/3){
+                dapArea=PageDapArea.MIDRIGHT;
             }else {
-                pageArea=PageArea.TOPRIGHT;
+                dapArea=PageDapArea.LOWRIGHT;
             }
+        }
+    }
+
+    private void setMoveArea(float y){
+        if (y>0&&y<mHeight/3){
+            moveArea=PageMoveArea.TOP;
+        }else if (y>=mHeight/3&&y<=mHeight*2/3){
+            moveArea=PageMoveArea.MIDDLE;
+        }else {
+            moveArea=PageMoveArea.LOW;
         }
     }
 
@@ -209,37 +233,38 @@ public class PageTurnView extends View{
         return e.x - (f.x - e.x) / 2;
     }
 
-    private void setTouchPoint(float x,float y){
-        if (isTurning()){              //如果正在翻页就不用判断了
-            switch (pageArea){
-                case LEFT:
+    private void updatePoints(float x,float y){
+            switch (moveArea){
+                case LOW:
+                    f.x=mWidth;
+                    f.y=mHeight;
+                    if (calcPointCX(x,y,f)>0){
+                        a.x=x;
+                        a.y=y;
+                    }
                     break;
-                case MENU:
+                case MIDDLE:
+                    f.x=mWidth;
+                    f.y=mHeight;
+                    a.x=x;
+                    a.y=mHeight-1;
+                    break;
+                case TOP:
+                    f.x=mWidth;
+                    f.y=0;
+                    if (calcPointCX(x,y,f)>0){
+                        a.x=x;
+                        a.y=y;
+                    }
                     break;
             }
-        }
-        if(calcPointCX(x,y,f)>0){
-            a.x=x;
-            a.y=y;
-            calcPoints(a,f);
-        }else {
-            calcPoints(a,f);
-        }
+        calcPoints(a,f);
         invalidate();
     }
     /*如果滑动距离大于最小滑动距离，就可以翻页*/
     private boolean canPageTurn(float x1,float y1,float x2,float y2){
         int distance=(int)Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
         if (distance>=touchSlop){
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    /*来判断是否正在翻页*/
-    private boolean isTurning(){
-        if (turnState){
             return true;
         }else {
             return false;
@@ -256,6 +281,19 @@ public class PageTurnView extends View{
         pathA.quadTo(h.x,h.y,j.x,j.y);//从k到j画贝塞尔曲线，控制点为h
         pathA.lineTo(mWidth,0);//移动到右上角
         pathA.close();//闭合区域
+        return pathA;
+    }
+
+    private Path getPathAFromTopRight(){
+        pathA.reset();
+        pathA.lineTo(c.x,c.y);//移动到c点
+        pathA.quadTo(e.x,e.y,b.x,b.y);//从c到b画贝塞尔曲线，控制点为e
+        pathA.lineTo(a.x,a.y);//移动到a点
+        pathA.lineTo(k.x,k.y);//移动到k点
+        pathA.quadTo(h.x,h.y,j.x,j.y);//从k到j画贝塞尔曲线，控制点为h
+        pathA.lineTo(mWidth,mHeight);//移动到右下角
+        pathA.lineTo(0, mHeight);//移动到左下角
+        pathA.close();
         return pathA;
     }
 
@@ -289,6 +327,11 @@ public class PageTurnView extends View{
 
     private void drawContentA(Canvas canvas){  //把A区域画在屏幕上
         canvas.save();
+        if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
+            pathA=getPathAFromLowRight();
+        }else {
+            pathA=getPathAFromTopRight();          //在这里确定pathA
+        }
         canvas.clipPath(pathA);
         canvas.drawBitmap(bitmapA,0,0,null);
         canvas.restore();
@@ -308,6 +351,11 @@ public class PageTurnView extends View{
         canvas.clipPath(pathC, Region.Op.DIFFERENCE);
         canvas.drawBitmap(bitmapB,0,0,null);
         canvas.restore();
+    }
+
+    private void drawDefault(Canvas canvas){
+        getPathDefault();
+        canvas.drawBitmap(bitmapA,0,0,null);
     }
 
     private Path getPathC(){
