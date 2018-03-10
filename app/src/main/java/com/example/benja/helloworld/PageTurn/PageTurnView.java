@@ -10,9 +10,13 @@ import android.graphics.Path;
 import android.graphics.Region;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.widget.Scroller;
 
 /**
  * Created by benja on 2018/3/5.
@@ -52,6 +56,8 @@ public class PageTurnView extends View{
 
     private PageMoveArea moveArea;
 
+    private Scroller mScroller;
+
     public PageTurnView(Context context) {
         super(context);
         initView(context);
@@ -88,6 +94,7 @@ public class PageTurnView extends View{
             drawContentC(canvas);
             drawContentB(canvas);
         }
+        Log.i("test","onDrawed");
     }
 
     @Override
@@ -110,10 +117,10 @@ public class PageTurnView extends View{
                 }else {
                     updatePoints(curX,curY);
                 }
+
             break;
             case MotionEvent.ACTION_UP:
-                isMoving=false;
-                invalidate();
+                cancelAnim();
                 break;
         }
         return true;
@@ -151,6 +158,8 @@ public class PageTurnView extends View{
 
         isMoving=false;
         moveArea=PageMoveArea.LOW;
+
+        mScroller=new Scroller(context,new AccelerateInterpolator());
     }
     
     private void setDapArea(float x,float y){
@@ -221,6 +230,21 @@ public class PageTurnView extends View{
         i.y = (2 * h.y + j.y + k.y) / 4;   //jhk做贝塞尔曲线，h为控制点，i为贝塞尔曲线的中点
     }
 
+    /**
+     * 如果c点x坐标小于0,根据触摸点重新测量a点坐标
+     */
+    private void calcPointAByTouchPoint(){
+        float w0 = mWidth - c.x;
+
+        float w1 = Math.abs(f.x - a.x);
+        float w2 = mWidth * w1 / w0;
+        a.x = Math.abs(f.x - w2);
+
+        float h1 = Math.abs(f.y - a.y);
+        float h2 = w2 * h1 / w1;
+        a.y = Math.abs(f.y - h2);
+    }
+
     /*计算c坐标来判断它的坐标是否小于0，小于0就重新计算a，因为书籍的左边是装订的*/
     private float calcPointCX(float touchX,float touchY,Point f){
 
@@ -238,12 +262,14 @@ public class PageTurnView extends View{
                 case LOW:
                     f.x=mWidth;
                     f.y=mHeight;
-                    if (calcPointCX(x,y,f)>0){
-                        a.x=x;
-                        a.y=y;
-                    }
+                    a.x=x;
+                    a.y=y;
                     calcPoints(a,f);
-                    invalidate();
+                    if (calcPointCX(x,y,f)<0){
+                        calcPointAByTouchPoint();
+                        calcPoints(a,f);
+                    }
+                    postInvalidate();
                     break;
                 case MIDDLE:
                     f.x=mWidth;
@@ -251,19 +277,22 @@ public class PageTurnView extends View{
                     a.x=x;
                     a.y=mHeight-1;
                     calcPoints(a,f);
-                    invalidate();
+                    postInvalidate();
                     break;
                 case TOP:
                     f.x=mWidth;
                     f.y=0;
-                    if (calcPointCX(x,y,f)>0){
-                        a.x=x;
-                        a.y=y;
+                    a.x=x;
+                    a.y=y;
+                    calcPoints(a,f);   //必须先计算全部点来判断cx是否小于零
+                    if (calcPointCX(x,y,f)<0){
+                        calcPointAByTouchPoint();
+                        calcPoints(a,f);
                     }
-                    calcPoints(a,f);
-                    invalidate();
+                    postInvalidate();
                     break;
             }
+        Log.i("test","invalidated");
     }
     /*如果滑动距离大于最小滑动距离，就可以翻页*/
     private boolean canPageTurn(float x1,float y1,float x2,float y2){
@@ -371,5 +400,31 @@ public class PageTurnView extends View{
         pathC.lineTo(this.d.x, this.d.y);
         pathC.close();
         return pathC;
+    }
+
+    @Override
+    public void computeScroll() {
+        if (mScroller.computeScrollOffset()){   //如果return true表示这个动画未结束
+            float x=mScroller.getCurrX();
+            float y=mScroller.getCurrY();
+
+            updatePoints(x,y);
+            if (mScroller.getFinalX()==x&&mScroller.getFinalY()==y){
+                isMoving=false;
+            }
+        }
+    }
+
+    private void cancelAnim(){
+        int dx,dy;
+        if(moveArea==PageMoveArea.TOP){
+            dx=(int)(mWidth-1-a.x);
+            dy=(int)(1-a.y);
+        }else {
+            dx=(int)(mWidth-1-a.x);
+            dy=(int)(mHeight-1-a.y);
+        }
+
+        mScroller.startScroll((int)a.x,(int)a.y,dx,dy,800);
     }
 }
