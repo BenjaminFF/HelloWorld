@@ -368,7 +368,99 @@ public class PageTurnView extends View{
         }
         canvas.clipPath(pathA);
         canvas.drawBitmap(bitmapA,0,0,null);
+        drawPathALeftShandow(canvas);
+        drawPathARightShandow(canvas);
         canvas.restore();
+    }
+
+    private void drawPathALeftShandow(Canvas canvas){
+        canvas.restore();
+        canvas.save();
+
+        int deepColor=0xff111111;
+        int lightColor=0x00111111;
+
+        int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
+
+        int deepOffset = 0;//深色端的偏移值
+        int lightOffset = 0;//浅色端的偏移值
+
+        //计算d点到直线ae的距离
+        float lA = a.y-e.y;
+        float lB = e.x-a.x;
+        float lC = a.x*e.y-e.x*a.y;
+        float dToae = Math.abs((lA*d.x+lB*d.y+lC)/(float) Math.hypot(lA,lB));
+
+        int left=(int)e.x;
+        int right=(int)(e.x+dToae);
+        int top;
+        int bottom;
+
+        float rotateDegrees;
+
+        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,gradientColors);
+        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+
+        if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
+            top=(int)e.y;
+            bottom=(int)(e.y+mHeight*10);
+            rotateDegrees=(float)(Math.toDegrees(Math.atan2(a.y-e.y,a.x-e.x))-90);
+
+        }else {
+            top=(int)(e.y-mHeight*10);
+            bottom=(int)e.y;
+            rotateDegrees=(float) (Math.toDegrees(Math.atan2(a.y-e.y,a.x-e.x))+90);
+        }
+
+        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+
+        canvas.rotate(rotateDegrees, e.x, e.y);//以e为中心点旋转
+        gradientDrawable.draw(canvas);
+    }
+
+    private void drawPathARightShandow(Canvas canvas){
+        canvas.restore();
+        canvas.save();
+
+        int deepColor=0xff111111;
+        int lightColor=0x00111111;
+
+        int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
+
+        int deepOffset = 0;//深色端的偏移值
+        int lightOffset = 0;//浅色端的偏移值
+
+        //计算i点到直线ah的距离
+        float rA = a.y-h.y;
+        float rB = h.x-a.x;
+        float rC = a.x*h.y-h.x*a.y;
+        float iToah = Math.abs((rA*i.x+rB*i.y+rC)/(float) Math.hypot(rA,rB));
+
+        int left=(int)h.x;
+        int right=(int)(h.x+iToah);
+        int top;
+        int bottom;
+
+        float rotateDegrees;
+
+        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,gradientColors);
+        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+
+        if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
+            top=(int)(h.y-mHeight*10);
+            bottom=(int)(h.y);
+            rotateDegrees=(float)-Math.toDegrees(Math.atan2(a.y-h.y,a.x-h.x));
+            Log.i("test1",rotateDegrees+"");
+        }else {
+            top=(int)(e.y-mHeight*10);
+            bottom=(int)e.y;
+            rotateDegrees=(float) (Math.toDegrees(Math.atan2(a.y-e.y,a.x-e.x))+90);
+        }
+
+        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+
+        canvas.rotate(rotateDegrees, h.x, h.y);//以h为中心点旋转
+        gradientDrawable.draw(canvas);
     }
 
     private void drawContentC(Canvas canvas){  //把C区域画在屏幕上
