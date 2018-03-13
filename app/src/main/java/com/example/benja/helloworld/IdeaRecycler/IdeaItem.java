@@ -4,7 +4,7 @@ package com.example.benja.helloworld.IdeaRecycler;
  * Created by benja on 2018/3/13.
  */
 
-public class ideaItem {
+public class IdeaItem {
     private int ImageId;
 
     private String title,subtitle;

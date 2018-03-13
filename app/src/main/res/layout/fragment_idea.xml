@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     tools:context="com.example.benja.helloworld.MainFragment.IdeaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="idea Fragment" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/idea_bar"
+            android:background="@color/persian_green"
+            android:layout_alignParentStart="true"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:layout_marginTop="15dp"
+                android:text="STAR"
+                android:textSize="25dp"
+                android:letterSpacing="0.1"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/idea_recycler"
+            android:layout_below="@+id/idea_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
 </FrameLayout>

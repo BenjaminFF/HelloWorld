@@ -10,12 +10,6 @@ import android.view.ViewGroup;
 
 import com.example.benja.helloworld.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StarFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class StarFragment extends Fragment {
 
 
