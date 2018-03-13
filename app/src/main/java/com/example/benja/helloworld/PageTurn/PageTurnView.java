@@ -60,6 +60,8 @@ public class PageTurnView extends View{
 
     private Scroller mScroller;
 
+    private GradientDrawable gdA1,gdA2,gdC,gdB;
+
     public PageTurnView(Context context) {
         super(context);
         initView(context);
@@ -165,6 +167,11 @@ public class PageTurnView extends View{
         moveArea=PageMoveArea.LOW;
 
         mScroller=new Scroller(context,new DecelerateInterpolator());
+
+        gdA1=new GradientDrawable();
+        gdA2=new GradientDrawable();
+        gdB=new GradientDrawable();
+        gdC=new GradientDrawable();
     }
     
     private void setDapArea(float x,float y){
@@ -300,7 +307,7 @@ public class PageTurnView extends View{
                     f.x=mWidth;
                     f.y=mHeight;
                     a.x=x;
-                    a.y=mHeight-1;
+                    a.y=mHeight-0.5f;
                     calcPoints(a,f);
                     postInvalidate();
                     break;
@@ -355,6 +362,15 @@ public class PageTurnView extends View{
         return pathA;
     }
 
+    private Path getPathAFromMidRight(){
+        pathA.reset();
+        pathA.moveTo(0,0);
+        pathA.lineTo(0,mHeight);
+        pathA.lineTo(a.x,mHeight);
+        pathA.lineTo(a.x,0);
+        pathA.close();
+        return pathA;
+    }
 
     private Path getPathDefault() {
         this.pathA.reset();
@@ -385,15 +401,18 @@ public class PageTurnView extends View{
 
     private void drawContentA(Canvas canvas){  //把A区域画在屏幕上
         canvas.save();
-        if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
-            pathA=getPathAFromLowRight();
-        }else {
-            pathA=getPathAFromTopRight();          //在这里确定pathA
+        if (moveArea==PageMoveArea.LOW||moveArea==PageMoveArea.MIDDLE){
+            canvas.clipPath(getPathAFromLowRight());
+        }else if (moveArea==PageMoveArea.TOP){
+            canvas.clipPath(getPathAFromTopRight());
         }
-        canvas.clipPath(pathA);
         canvas.drawBitmap(bitmapA,0,0,null);
-        drawPathALeftShandow(canvas);
-        drawPathARightShandow(canvas);
+        if (moveArea==PageMoveArea.TOP||moveArea==PageMoveArea.LOW){
+            drawPathALeftShandow(canvas);
+            drawPathARightShandow(canvas);
+        }else {
+            drawPathAMidShandow(canvas);
+        }
         canvas.restore();
     }
 
@@ -406,11 +425,6 @@ public class PageTurnView extends View{
 
         int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
 
-        int deepOffset = 0;//深色端的偏移值
-        int lightOffset = 0;//浅色端的偏移值
-
-
-
         int left=(int)e.x;
         int right=(int)(e.x+dToae);
         int top;
@@ -418,8 +432,9 @@ public class PageTurnView extends View{
 
         float rotateDegrees;
 
-        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,gradientColors);
-        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+        gdA1.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+        gdA1.setColors(gradientColors);
+        gdA1.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
         if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
             top=(int)e.y;
@@ -432,10 +447,31 @@ public class PageTurnView extends View{
             rotateDegrees=(float) (Math.toDegrees(Math.atan2(a.y-e.y,a.x-e.x))+90);
         }
 
-        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+        gdA1.setBounds(left,top,right,bottom);
 
         canvas.clipPath(getPathleftsA());
         canvas.rotate(rotateDegrees, e.x, e.y);//以e为中心点旋转
+        gdA1.draw(canvas);
+    }
+
+    private void drawPathAMidShandow(Canvas canvas){      //从中间滑动时
+        canvas.restore();
+        canvas.save();
+
+        int deepColor=0x33111111;
+        int lightColor=0x00111111;
+
+        int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
+
+        int left=(int)(a.x-20);
+        int right=(int)(a.x+20);
+        int top=0;
+        int bottom=mHeight;
+
+        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,gradientColors);
+        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+
+        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
         gradientDrawable.draw(canvas);
     }
 
@@ -468,9 +504,6 @@ public class PageTurnView extends View{
 
         int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
 
-        int deepOffset = 0;//深色端的偏移值
-        int lightOffset = 0;//浅色端的偏移值
-
         int left=(int)h.x;
         int right=(int)h.x+mWidth*10;
         int top;
@@ -478,26 +511,26 @@ public class PageTurnView extends View{
 
         float rotateDegrees=(float)Math.toDegrees(Math.atan2(a.y-h.y,a.x-h.x));
 
-        GradientDrawable gradientDrawable;
-
         if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
-            gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,gradientColors);
-            gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+            gdA2.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+            gdA2.setColors(gradientColors);
+            gdA2.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             top=(int)(h.y);
             bottom=(int)(h.y+iToah);
             Log.i("test1",rotateDegrees+"");
         }else {
-            gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,gradientColors);
-            gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+            gdA2.setOrientation(GradientDrawable.Orientation.BOTTOM_TOP);
+            gdA2.setColors(gradientColors);
+            gdA2.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             top=(int)(h.y-iToah);
             bottom=(int)(h.y);
         }
 
-        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+        gdA2.setBounds(left,top,right,bottom);
 
         canvas.clipPath(getPathrightsA());
         canvas.rotate(rotateDegrees, h.x, h.y);//以h为中心点旋转
-        gradientDrawable.draw(canvas);
+        gdA2.draw(canvas);
     }
 
     private void drawContentC(Canvas canvas){  //把C区域画在屏幕上
@@ -506,6 +539,7 @@ public class PageTurnView extends View{
         canvas.clipPath(getPathC(), Region.Op.REVERSE_DIFFERENCE);  //C区域为A区域-A区域与abdi区域的交集
         canvas.drawBitmap(bitmapC,0,0,null);
         drawPathCShandow(canvas);
+
         canvas.restore();
     }
 
@@ -515,8 +549,6 @@ public class PageTurnView extends View{
 
         int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
 
-        int deepOffset = 0;//深色端的偏移值
-        int lightOffset = 0;//浅色端的偏移值
         float aTof =(float) Math.hypot((a.x - f.x),(a.y - f.y));//a到f的距离
 
         int left=(int)c.x;
@@ -526,8 +558,9 @@ public class PageTurnView extends View{
 
         float rotateDegrees;
 
-        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,gradientColors);
-        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+        gdC.setOrientation(GradientDrawable.Orientation.RIGHT_LEFT);
+        gdC.setColors(gradientColors);
+        gdC.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
 
         if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
             top=(int)(c.y-mHeight*10);
@@ -538,10 +571,10 @@ public class PageTurnView extends View{
             bottom=mHeight*10;
             rotateDegrees=-1*(float) Math.toDegrees(Math.atan2(f.x-c.x, j.y-f.y));
         }
-        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+        gdC.setBounds(left,top,right,bottom);//设置阴影矩形
 
         canvas.rotate(rotateDegrees, c.x, c.y);//以c为中心点旋转
-        gradientDrawable.draw(canvas);
+        gdC.draw(canvas);
     }
 
     private void drawContentB(Canvas canvas){  //把A的部分画在屏幕上
@@ -559,8 +592,6 @@ public class PageTurnView extends View{
 
         int[] gradientColors = new int[] {deepColor,lightColor};//渐变颜色数组
 
-        int deepOffset = 0;//深色端的偏移值
-        int lightOffset = 0;//浅色端的偏移值
         float aTof =(float) Math.hypot((a.x - f.x),(a.y - f.y));//a到f的距离
 
         int left=(int)c.x;
@@ -570,8 +601,8 @@ public class PageTurnView extends View{
 
         float rotateDegrees;
 
-        GradientDrawable gradientDrawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,gradientColors);
-        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);//线性渐变
+        gdC.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+        gdC.setColors(gradientColors);
 
         if (moveArea==PageMoveArea.MIDDLE||moveArea==PageMoveArea.LOW){
             top=(int)(c.y-mHeight*10);
@@ -582,10 +613,10 @@ public class PageTurnView extends View{
             bottom=mHeight*10;
             rotateDegrees=-1*(float) Math.toDegrees(Math.atan2(f.x-c.x, j.y-f.y));
         }
-        gradientDrawable.setBounds(left,top,right,bottom);//设置阴影矩形
+        gdC.setBounds(left,top,right,bottom);//设置阴影矩形
 
         canvas.rotate(rotateDegrees, c.x, c.y);//以c为中心点旋转
-        gradientDrawable.draw(canvas);
+        gdC.draw(canvas);
     }
 
     private void drawDefault(Canvas canvas){
