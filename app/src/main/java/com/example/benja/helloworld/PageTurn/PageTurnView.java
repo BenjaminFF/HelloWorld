@@ -78,9 +78,9 @@ public class PageTurnView extends View{
         mWidth=MeasureSpec.getSize(widthMeasureSpec);
         mHeight=MeasureSpec.getSize(heightMeasureSpec);
 
-        this.bitmapA = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
-        this.bitmapB = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
-        this.bitmapC = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.RGB_565);
+        this.bitmapA = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.ARGB_4444);
+        this.bitmapB = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.ARGB_4444);
+        this.bitmapC = Bitmap.createBitmap(this.mWidth, this.mHeight, Bitmap.Config.ARGB_4444);
         drawContentInBitmapA();
         drawContentInBitmapB();
         drawContentInBitmapC();
@@ -151,15 +151,15 @@ public class PageTurnView extends View{
 
         mPaintA=new Paint();
         mPaintA.setStyle(Paint.Style.FILL);
-        mPaintA.setColor(Color.GREEN);
+        mPaintA.setColor(Color.parseColor("#9AD868"));
 
         mPaintB=new Paint();
         mPaintB.setStyle(Paint.Style.FILL);
-        mPaintB.setColor(Color.YELLOW);
+        mPaintB.setColor(Color.parseColor("#9AD868"));
 
         mPaintC=new Paint();
         mPaintC.setStyle(Paint.Style.FILL);
-        mPaintC.setColor(Color.LTGRAY);
+        mPaintC.setColor(Color.parseColor("#9AD868"));
 
         touchSlop= ViewConfiguration.get(context).getScaledTouchSlop();
 
@@ -358,16 +358,6 @@ public class PageTurnView extends View{
         pathA.quadTo(h.x,h.y,j.x,j.y);//从k到j画贝塞尔曲线，控制点为h
         pathA.lineTo(mWidth,mHeight);//移动到右下角
         pathA.lineTo(0, mHeight);//移动到左下角
-        pathA.close();
-        return pathA;
-    }
-
-    private Path getPathAFromMidRight(){
-        pathA.reset();
-        pathA.moveTo(0,0);
-        pathA.lineTo(0,mHeight);
-        pathA.lineTo(a.x,mHeight);
-        pathA.lineTo(a.x,0);
         pathA.close();
         return pathA;
     }
