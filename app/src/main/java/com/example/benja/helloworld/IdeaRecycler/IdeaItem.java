@@ -7,7 +7,12 @@ package com.example.benja.helloworld.IdeaRecycler;
 public class IdeaItem {
     private int ImageId;
 
-    private String title,subtitle;
+    private String title;
+
+    public IdeaItem(int imageId, String title) {
+        ImageId = imageId;
+        this.title = title;
+    }
 
     public int getImageId() {
         return ImageId;
@@ -23,13 +28,5 @@ public class IdeaItem {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
     }
 }
