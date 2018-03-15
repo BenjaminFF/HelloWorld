@@ -10,6 +10,32 @@
         app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
+            android:id="@+id/snapview"
+            app:Orientation="Vertical"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <View
+                android:background="@color/pistachio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </View>
+            <View
+                android:background="@color/persian_green"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </View>
+            <View
+                android:background="@color/sea_blue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </View>
+        </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
         <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
             android:layout_marginTop="200dp"
             android:background="@color/metallic_seaweed"

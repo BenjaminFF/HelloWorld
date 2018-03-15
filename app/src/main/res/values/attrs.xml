@@ -7,4 +7,11 @@
         <attr name="bb_active_color" format="color"/>
             <attr name="bb_unactive_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="SnapView">
+        <attr name="Orientation" format="enum">
+            <enum name="Vertical" value="0"/>
+            <enum name="Horizontal" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>
