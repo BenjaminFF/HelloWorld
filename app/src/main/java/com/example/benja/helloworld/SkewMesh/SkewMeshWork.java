@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.benja.helloworld.RecyclerViews.MeshRecyclerAdapter;
 
 import com.example.benja.helloworld.R;
 import com.example.benja.helloworld.RecyclerViews.OnRecyclerViewItemClickListener;
+import com.example.benja.helloworld.SkewMesh.Mesh_Metrix.Mesh_Metrix;
 
 import java.util.ArrayList;
 

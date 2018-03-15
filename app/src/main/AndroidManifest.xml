@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SkewMesh.SkewMeshWork" />
-        <activity android:name=".SkewMesh.Mesh_Metrix"></activity>
+        <activity android:name=".SkewMesh.Mesh_Metrix.Mesh_Metrix"></activity>
     </application>
 
 </manifest>
