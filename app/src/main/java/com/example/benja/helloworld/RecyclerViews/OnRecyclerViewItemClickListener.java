@@ -1,4 +1,4 @@
-package com.example.benja.helloworld.IdeaRecycler;
+package com.example.benja.helloworld.RecyclerViews;
 
 import android.view.View;
 

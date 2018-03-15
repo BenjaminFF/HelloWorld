@@ -1,4 +1,4 @@
-package com.example.benja.helloworld.IdeaRecycler;
+package com.example.benja.helloworld.RecyclerViews;
 
 /**
  * Created by benja on 2018/3/13.

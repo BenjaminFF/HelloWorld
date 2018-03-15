@@ -1,4 +1,4 @@
-package com.example.benja.helloworld.IdeaRecycler;
+package com.example.benja.helloworld.RecyclerViews;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by benja on 2018/3/13.
  */
 
-public class IdeaRecyclerAdepter extends RecyclerView.Adapter<IdeaRecyclerAdepter.IdeaHolder>
+public class IdeaRecyclerAdapter extends RecyclerView.Adapter<IdeaRecyclerAdapter.IdeaHolder>
 {
 
     private ArrayList<IdeaItem> ideaItems;
@@ -32,7 +32,7 @@ public class IdeaRecyclerAdepter extends RecyclerView.Adapter<IdeaRecyclerAdepte
         }
     }
 
-    public IdeaRecyclerAdepter(ArrayList<IdeaItem> ideaItems) {
+    public IdeaRecyclerAdapter(ArrayList<IdeaItem> ideaItems) {
         this.ideaItems = ideaItems;
     }
 
