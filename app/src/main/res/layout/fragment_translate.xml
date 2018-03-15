@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
-            android:layout_margin="30dp"
+            android:layout_marginTop="200dp"
             android:background="@color/metallic_seaweed"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
