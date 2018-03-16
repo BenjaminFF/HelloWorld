@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
+import android.widget.Toast;
 
 import com.example.benja.helloworld.R;
 
@@ -80,7 +81,7 @@ public class SnapView extends ViewGroup{
         }
     }
 
-    public void startScroll(){
+    public void StartNegativeScroll(){   //向左或向上
         if (childindex<getChildCount()-1){
             View childview=getChildAt(childindex);
             if (Orientation==1){
@@ -90,6 +91,23 @@ public class SnapView extends ViewGroup{
             }
             invalidate();
             childindex++;
+        }else {
+            Toast.makeText(getContext(),"No more",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void StartPositiveScroll(){   //向右或向下
+        if (childindex>0){
+            View childview=getChildAt(childindex);
+            if (Orientation==1){
+                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,1000);
+            }else {
+                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),1000);
+            }
+            invalidate();
+            childindex--;
+        }else {
+            Toast.makeText(getContext(),"No more",Toast.LENGTH_SHORT).show();
         }
     }
 }

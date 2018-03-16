@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.benja.helloworld.R;
 
@@ -26,15 +27,25 @@ public class TranslateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_translate, container, false);
-        Button button=v.findViewById(R.id.testButton);
-        final SnapView snapView=v.findViewById(R.id.snapview);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snapView.startScroll();
-            }
-        });
+        initComponent(v);
         return v;
     }
 
+    private void initComponent(View v){
+        ImageView up_image=v.findViewById(R.id.up_image);
+        ImageView down_image=v.findViewById(R.id.down_image);
+        final SnapView snapView=v.findViewById(R.id.translate_snapView);
+        up_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapView.StartNegativeScroll();
+            }
+        });
+        down_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapView.StartPositiveScroll();
+            }
+        });
+    }
 }

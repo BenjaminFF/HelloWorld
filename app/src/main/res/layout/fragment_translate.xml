@@ -10,37 +10,112 @@
         app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:id="@+id/testButton"
+        <LinearLayout
+            android:orientation="vertical"
+            android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
-        <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
-            android:id="@+id/snapview"
-            app:Orientation="Vertical"
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="150dp">
-            <View
-                android:background="@color/pistachio"
+            android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <ImageView
+                        android:clickable="true"
+                        android:id="@+id/up_image"
+                        android:src="@drawable/up"
+                        android:scaleType="center"
+                        android:background="@color/metallic_seaweed"
+                        android:layout_weight="0.5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
+                        android:id="@+id/translate_snapView"
+                        app:Orientation="Vertical"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:background="@color/pistachio"
+                            android:text="PreTranslate"
+                            android:textSize="25sp"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                        <TextView
+                            android:background="@color/persian_green"
+                            android:text="PostTranslate"
+                            android:textSize="25sp"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
+                    <ImageView
+                        android:id="@+id/down_image"
+                        android:clickable="true"
+                        android:background="@color/sea_blue"
+                        android:src="@drawable/down"
+                        android:scaleType="center"
+                        android:layout_weight="0.5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                android:weightSum="6"
+                android:orientation="horizontal"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </View>
-            <View
-                android:background="@color/persian_green"
+                android:layout_height="0dp">
+                    <TextView
+                        android:background="@color/persian_green"
+                        android:textSize="25sp"
+                        android:text="x:"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="number"
+                        android:cursorVisible="false"
+                        android:gravity="center"
+                        android:maxLength="3"
+                        android:background="@color/pistachio"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:background="@color/persian_green"
+                        android:textSize="25sp"
+                        android:text="y:"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:cursorVisible="false"
+                        android:gravity="center"
+                        android:background="@color/pistachio"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                 </LinearLayout>
+            <LinearLayout
+                android:layout_weight="2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </View>
-            <View
-                android:background="@color/sea_blue"
+                android:layout_height="0dp">
+                <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
+                android:layout_weight="6"
+                android:background="@color/metallic_seaweed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </View>
-        </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
-        <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
-            android:layout_marginTop="200dp"
-            android:background="@color/metallic_seaweed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                android:layout_height="0dp" />
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </FrameLayout>
