@@ -47,12 +47,13 @@ public class MetrixView extends View {
         paint=new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(3);
         path=new Path();
 
         pathPaint=new Paint();
         pathPaint.setStyle(Paint.Style.STROKE);
         pathPaint.setColor(Color.GREEN);
-        pathPaint.setStrokeWidth(5);
+        pathPaint.setStrokeWidth(3);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MetrixView extends View {
         }else {
             mSquareWidth=mWidth;
         }
-        if (row>column){
+        if (row>=column){
             cellWidth=mSquareWidth/row;
         }else {
             cellWidth=mSquareWidth/column;
@@ -89,17 +90,24 @@ public class MetrixView extends View {
     private void drawOutlinePath(Canvas canvas){
         float dx,dy;
         if (row%2!=0){
-            dx=(row-1)/2*cellWidth+cellWidth/2;
+            dy=(row-1)/2*cellWidth+cellWidth/2;
         }else {
-            dx=row*cellWidth/2;
+            dy=row*cellWidth/2;
         }
         if (column%2!=0){
-            dy=(column-1)*cellWidth/2+cellWidth;
+            dx=(column-1)/2*cellWidth+cellWidth/2;
         }else {
-            dy=column*cellWidth/2;
+            dx=column*cellWidth/2;
         }
-        path.moveTo(0,0);
-        path.lineTo(cellWidth+cellWidth/2,0);
-        canvas.drawPath(path,pathPaint);
+        path.moveTo(0-dx+cellWidth/3+1.5f,0-dy+1.5f);
+        path.lineTo(0-dx+1.5f,0-dy+1.5f);
+        path.lineTo(0-dx+1.5f,dy-1.5f);
+        path.lineTo(0-dx+1.5f+cellWidth/3,dy-1.5f);
+
+        path.moveTo(dx-1.5f-cellWidth/3,-dy+1.5f);
+        path.lineTo(dx-1.5f,-dy+1.5f);
+        path.lineTo(dx-1.5f,dy-1.5f);
+        path.lineTo(dx-1.5f-cellWidth/3,dy-1.5f);
+        canvas.drawPath(path,paint);
     }
 }
