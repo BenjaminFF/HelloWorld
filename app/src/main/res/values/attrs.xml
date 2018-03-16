@@ -14,4 +14,8 @@
             <enum name="Horizontal" value="1"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="MetrixView">
+       <attr name="row" format="integer"/>
+        <attr name="column" format="integer"/>
+    </declare-styleable>
 </resources>

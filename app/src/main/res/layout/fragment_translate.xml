@@ -33,18 +33,17 @@
                     <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
                         android:id="@+id/translate_snapView"
                         app:Orientation="Vertical"
+                        android:background="@color/pistachio"
                         android:layout_weight="2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <TextView
-                            android:background="@color/pistachio"
                             android:text="PreTranslate"
                             android:textSize="25sp"
                             android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                         <TextView
-                            android:background="@color/persian_green"
                             android:text="PostTranslate"
                             android:textSize="25sp"
                             android:gravity="center"
@@ -103,11 +102,15 @@
                         android:layout_height="match_parent" />
                  </LinearLayout>
             <LinearLayout
+                android:weightSum="3"
                 android:layout_weight="2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
                 <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
-                    android:layout_width="match_parent"
+                    app:column="3"
+                    app:row="3"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
