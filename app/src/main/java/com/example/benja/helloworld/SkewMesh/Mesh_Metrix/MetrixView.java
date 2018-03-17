@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.example.benja.helloworld.R;
@@ -25,13 +27,19 @@ public class MetrixView extends View {
 
     private int mWidth,mHeight;
 
-    private Paint paint,pathPaint;
+    private Paint paint,pathPaint,textPaint;
 
     private int cellWidth;   //cell为正方形 width=height
 
     private int mbasepointX,mbasePointY;
 
     private int mSquareWidth;
+
+    private Paint.FontMetrics fontMetrics;
+
+    private Rect targetRect;
+
+    private int baselineY;   //画数字的基线Y坐标
 
     public MetrixView(Context context) {
         super(context);
@@ -54,6 +62,11 @@ public class MetrixView extends View {
         pathPaint.setStyle(Paint.Style.STROKE);
         pathPaint.setColor(Color.GREEN);
         pathPaint.setStrokeWidth(3);
+
+        textPaint=new Paint();
+        textPaint.setColor(Color.GREEN);
+
+        targetRect=new Rect();
     }
 
     @Override
@@ -68,46 +81,52 @@ public class MetrixView extends View {
             mSquareWidth=mWidth;
         }
         if (row>=column){
-            cellWidth=mSquareWidth/row;
+            cellWidth=mSquareWidth/row;   //加一格来画外框
         }else {
             cellWidth=mSquareWidth/column;
         }
 
         mbasepointX=mWidth/2-mSquareWidth/2;
         mbasePointY=mHeight/2-mSquareWidth/2;
+
+        textPaint.setTextSize(50);
+        fontMetrics=textPaint.getFontMetrics();
+        textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawRect(mbasepointX,mbasePointY,mbasepointX+mSquareWidth,mbasePointY+mSquareWidth,pathPaint);
-        canvas.translate(mWidth/2,mHeight/2);    //让canvas原点居中
-        drawOutlinePath(canvas);
+        //canvas.scale(0.8f,0.8f,mWidth/2,mHeight/2);
+        canvas.drawRect(mbasepointX,mbasePointY,mbasepointX+mSquareWidth,mbasePointY+mSquareWidth,paint);
 
+        drawOutlinePath(canvas);
+        drawMetrixText(canvas);
     }
 
     private void drawOutlinePath(Canvas canvas){
-        float dx,dy;
-        if (row%2!=0){
-            dy=(row-1)/2*cellWidth+cellWidth/2;
-        }else {
-            dy=row*cellWidth/2;
-        }
-        if (column%2!=0){
-            dx=(column-1)/2*cellWidth+cellWidth/2;
-        }else {
-            dx=column*cellWidth/2;
-        }
-        path.moveTo(0-dx+cellWidth/3+1.5f,0-dy+1.5f);
-        path.lineTo(0-dx+1.5f,0-dy+1.5f);
-        path.lineTo(0-dx+1.5f,dy-1.5f);
-        path.lineTo(0-dx+1.5f+cellWidth/3,dy-1.5f);
 
-        path.moveTo(dx-1.5f-cellWidth/3,-dy+1.5f);
-        path.lineTo(dx-1.5f,-dy+1.5f);
-        path.lineTo(dx-1.5f,dy-1.5f);
-        path.lineTo(dx-1.5f-cellWidth/3,dy-1.5f);
-        canvas.drawPath(path,paint);
+    }
+
+    private void drawMetrixText(Canvas canvas){
+
+        canvas.save();
+        int dx=(mbasepointX+mSquareWidth)/2-(mbasepointX+cellWidth*column)/2;
+        int dy=(mbasePointY+mSquareWidth)/2-(mbasePointY+cellWidth*row)/2;
+        canvas.translate(dx,dy);
+        for (int i=0;i<column;i++)
+            for(int j=0;j<row;j++){
+                targetRect.left=mbasepointX+cellWidth*i;
+                targetRect.right=mbasepointX+cellWidth*(i+1);
+                targetRect.top=mbasePointY+cellWidth*j;
+                targetRect.bottom=mbasePointY+cellWidth*(j+1);
+
+                //(top+bottom)/2-bottom
+                baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);
+                canvas.drawText("5",targetRect.centerX(),baselineY,textPaint);
+                canvas.drawRect(targetRect,paint);
+            }
+            canvas.restore();
     }
 }
