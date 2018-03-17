@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.example.benja.helloworld.BottomBar.MiscUtils;
 import com.example.benja.helloworld.R;
 
 /**
@@ -29,15 +31,11 @@ public class MetrixView extends View {
 
     private Paint paint,pathPaint,textPaint;
 
-    private int cellWidth;   //cell为正方形 width=height
-
-    private int mbasepointX,mbasePointY;
-
-    private int mSquareWidth;
+    private float cellWidth;   //cell为正方形 width=height
 
     private Paint.FontMetrics fontMetrics;
 
-    private Rect targetRect;
+    private RectF targetRect;
 
     private int baselineY;   //画数字的基线Y坐标
 
@@ -51,6 +49,7 @@ public class MetrixView extends View {
         TypedArray a=context.getTheme().obtainStyledAttributes(attrs, R.styleable.MetrixView,0,0);
         row=a.getInteger(R.styleable.MetrixView_row,-1);
         column=a.getInteger(R.styleable.MetrixView_column,-1);
+        cellWidth=a.getDimension(R.styleable.MetrixView_cellWidth, MiscUtils.dpToPixel(context,12));
 
         paint=new Paint();
         paint.setColor(Color.BLACK);
@@ -65,8 +64,7 @@ public class MetrixView extends View {
 
         textPaint=new Paint();
         textPaint.setColor(Color.GREEN);
-
-        targetRect=new Rect();
+        targetRect=new RectF();
     }
 
     @Override
@@ -75,21 +73,7 @@ public class MetrixView extends View {
         mWidth=MeasureSpec.getSize(widthMeasureSpec);
         mHeight=MeasureSpec.getSize(heightMeasureSpec);
 
-        if (mWidth>=mHeight){
-            mSquareWidth=mHeight;     //省去多余的部分，让view变成一个正方形，并且居中
-        }else {
-            mSquareWidth=mWidth;
-        }
-        if (row>=column){
-            cellWidth=mSquareWidth/row;   //加一格来画外框
-        }else {
-            cellWidth=mSquareWidth/column;
-        }
-
-        mbasepointX=mWidth/2-mSquareWidth/2;
-        mbasePointY=mHeight/2-mSquareWidth/2;
-
-        textPaint.setTextSize(50);
+        textPaint.setTextSize(cellWidth*8/10);
         fontMetrics=textPaint.getFontMetrics();
         textPaint.setTextAlign(Paint.Align.CENTER);
     }
@@ -98,8 +82,7 @@ public class MetrixView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //canvas.scale(0.8f,0.8f,mWidth/2,mHeight/2);
-        canvas.drawRect(mbasepointX,mbasePointY,mbasepointX+mSquareWidth,mbasePointY+mSquareWidth,paint);
+        canvas.drawRect(0,0,mWidth,mHeight,paint);
 
         drawOutlinePath(canvas);
         drawMetrixText(canvas);
@@ -112,15 +95,15 @@ public class MetrixView extends View {
     private void drawMetrixText(Canvas canvas){
 
         canvas.save();
-        int dx=(mbasepointX+mSquareWidth)/2-(mbasepointX+cellWidth*column)/2;
-        int dy=(mbasePointY+mSquareWidth)/2-(mbasePointY+cellWidth*row)/2;
+        int dx=(int)(mWidth/2-(cellWidth*column)/2);
+        int dy=(int)(mHeight/2-(cellWidth*row)/2);
         canvas.translate(dx,dy);
         for (int i=0;i<column;i++)
             for(int j=0;j<row;j++){
-                targetRect.left=mbasepointX+cellWidth*i;
-                targetRect.right=mbasepointX+cellWidth*(i+1);
-                targetRect.top=mbasePointY+cellWidth*j;
-                targetRect.bottom=mbasePointY+cellWidth*(j+1);
+                targetRect.left=cellWidth*i;
+                targetRect.right=cellWidth*(i+1);
+                targetRect.top=cellWidth*j;
+                targetRect.bottom=cellWidth*(j+1);
 
                 //(top+bottom)/2-bottom
                 baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);

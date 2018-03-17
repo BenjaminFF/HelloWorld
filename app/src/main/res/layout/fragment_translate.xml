@@ -109,6 +109,7 @@
                 <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
                     app:column="2"
                     app:row="1"
+                    app:cellWidth="10dp"
                     android:layout_weight="0.8"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />

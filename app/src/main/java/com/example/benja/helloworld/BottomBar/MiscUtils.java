@@ -11,7 +11,7 @@ import android.util.TypedValue;
 
 public class MiscUtils {
 
-    protected static int dpToPixel(Context context, float dp) {
+    public static int dpToPixel(Context context, float dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
 
