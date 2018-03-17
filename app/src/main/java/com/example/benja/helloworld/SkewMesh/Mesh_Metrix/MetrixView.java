@@ -25,7 +25,7 @@ public class MetrixView extends View {
 
     private int matrix[][];
 
-    private Path path;
+    private Path outPath;
 
     private int mWidth,mHeight;
 
@@ -55,7 +55,7 @@ public class MetrixView extends View {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3);
-        path=new Path();
+        outPath=new Path();
 
         pathPaint=new Paint();
         pathPaint.setStyle(Paint.Style.STROKE);
@@ -89,7 +89,20 @@ public class MetrixView extends View {
     }
 
     private void drawOutlinePath(Canvas canvas){
-
+        canvas.save();
+        canvas.translate(mWidth/2,mHeight/2);
+        float startX=-cellWidth*column/2+cellWidth/4;
+        float startY=-cellWidth*row/2-cellWidth/4;
+        outPath.moveTo(startX,startY);
+        outPath.lineTo(startX-cellWidth/2,startY);
+        outPath.lineTo(startX-cellWidth/2,startY+cellWidth/2+cellWidth*row);
+        outPath.lineTo(startX,startY+cellWidth/2+cellWidth*row);
+        outPath.moveTo(-startX,-startY);
+        outPath.lineTo(-startX+cellWidth/2,-startY);
+        outPath.lineTo(-startX+cellWidth/2,-startY-cellWidth/2-cellWidth*row);
+        outPath.lineTo(-startX,-startY-cellWidth/2-cellWidth*row);
+        canvas.drawPath(outPath,paint);
+        canvas.restore();
     }
 
     private void drawMetrixText(Canvas canvas){
@@ -108,7 +121,7 @@ public class MetrixView extends View {
                 //(top+bottom)/2-bottom
                 baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);
                 canvas.drawText("5",targetRect.centerX(),baselineY,textPaint);
-                canvas.drawRect(targetRect,paint);
+                //canvas.drawRect(targetRect,paint);
             }
             canvas.restore();
     }
