@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
@@ -25,7 +26,7 @@ public class SnapView extends ViewGroup{
 
     private int Orientation;  //0表示Vertical 1表示Horizontal
 
-    private int Direction;           //0表示向左，1表示向右
+    private int Direction;           //0表示向左或向上，1表示向右或向下
 
     private int leftBorder,rightBorder;
 
@@ -39,7 +40,8 @@ public class SnapView extends ViewGroup{
         super(context, attrs);
         TypedArray a=context.getTheme().obtainStyledAttributes(attrs, R.styleable.SnapView,0,0);
         Orientation=a.getInteger(R.styleable.SnapView_Orientation,0);
-        mScroller=new Scroller(context,new DecelerateInterpolator());
+        mScroller=new Scroller(context,new BounceInterpolator());
+        Direction=1;
     }
 
     @Override
@@ -81,33 +83,41 @@ public class SnapView extends ViewGroup{
         }
     }
 
-    public void StartNegativeScroll(){   //向左或向上
-        if (childindex<getChildCount()-1){
+    public void StartScroll(){   //向左或向上 Direction=0
+        if (childindex==0){
             View childview=getChildAt(childindex);
             if (Orientation==1){
                 mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,1000);
             }else {
                 mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),1000);
             }
-            invalidate();
             childindex++;
-        }else {
-            Toast.makeText(getContext(),"No more",Toast.LENGTH_SHORT).show();
+            invalidate();
+        }else{
+            View childview=getChildAt(childindex);
+            if (Orientation==1){
+                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,400);
+            }else {
+                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),400);
+            }
+            childindex--;
+            invalidate();
         }
     }
 
-    public void StartPositiveScroll(){   //向右或向下
-        if (childindex>0){
-            View childview=getChildAt(childindex);
-            if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,1000);
-            }else {
-                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),1000);
-            }
-            invalidate();
-            childindex--;
-        }else {
-            Toast.makeText(getContext(),"No more",Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                StartScroll();
+                return true;
+                default:break;
         }
+        return true;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return true;
     }
 }
