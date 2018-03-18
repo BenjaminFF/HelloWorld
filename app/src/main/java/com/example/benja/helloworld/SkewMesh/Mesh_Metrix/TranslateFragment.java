@@ -32,20 +32,8 @@ public class TranslateFragment extends Fragment {
     }
 
     private void initComponent(View v){
-        ImageView up_image=v.findViewById(R.id.up_image);
-        ImageView down_image=v.findViewById(R.id.down_image);
         final SnapView snapView=v.findViewById(R.id.translate_snapView);
-        up_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snapView.StartNegativeScroll();
-            }
-        });
-        down_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snapView.StartPositiveScroll();
-            }
-        });
+        MetrixView metrixView=v.findViewById(R.id.metrixview1);
+        metrixView.setMatrix(new int[][]{{1,2,3},{4,5,6},{7,8,9},{6,3,9}});
     }
 }

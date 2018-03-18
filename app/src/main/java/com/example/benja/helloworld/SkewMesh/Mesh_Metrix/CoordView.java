@@ -32,12 +32,12 @@ public class CoordView extends View{
 
         coordPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         coordPaint.setStyle(Paint.Style.STROKE);
-        coordPaint.setColor(Color.YELLOW);
+        coordPaint.setColor(Color.BLACK);
         coordPaint.setStrokeWidth(3);
 
         textPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        textPaint.setColor(Color.YELLOW);
+        textPaint.setColor(Color.BLACK);
 
         coordPath=new Path();
 

@@ -57,14 +57,21 @@ public class MetrixView extends View {
         paint.setStrokeWidth(3);
         outPath=new Path();
 
-        pathPaint=new Paint();
+        pathPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         pathPaint.setStyle(Paint.Style.STROKE);
         pathPaint.setColor(Color.GREEN);
         pathPaint.setStrokeWidth(3);
 
-        textPaint=new Paint();
-        textPaint.setColor(Color.GREEN);
+        textPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.BLACK);
         targetRect=new RectF();
+
+        matrix=new int[row][column];
+        for(int i=0;i<row;i++){
+            for (int j=0;j<column;j++){
+                matrix[i][j]=0;
+            }
+        }
     }
 
     @Override
@@ -81,8 +88,6 @@ public class MetrixView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawRect(0,0,mWidth,mHeight,paint);
 
         drawOutlinePath(canvas);
         drawMetrixText(canvas);
@@ -111,18 +116,23 @@ public class MetrixView extends View {
         int dx=(int)(mWidth/2-(cellWidth*column)/2);
         int dy=(int)(mHeight/2-(cellWidth*row)/2);
         canvas.translate(dx,dy);
-        for (int i=0;i<column;i++)
-            for(int j=0;j<row;j++){
-                targetRect.left=cellWidth*i;
-                targetRect.right=cellWidth*(i+1);
-                targetRect.top=cellWidth*j;
-                targetRect.bottom=cellWidth*(j+1);
+        for (int i=0;i<row;i++)
+            for(int j=0;j<column;j++){
+                targetRect.left=cellWidth*j;
+                targetRect.right=cellWidth*(j+1);
+                targetRect.top=cellWidth*i;
+                targetRect.bottom=cellWidth*(i+1);
 
                 //(top+bottom)/2-bottom
                 baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);
-                canvas.drawText("5",targetRect.centerX(),baselineY,textPaint);
+                canvas.drawText(matrix[i][j]+"",targetRect.centerX(),baselineY,textPaint);
                 //canvas.drawRect(targetRect,paint);
             }
             canvas.restore();
+    }
+
+    public void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
+        invalidate();
     }
 }
