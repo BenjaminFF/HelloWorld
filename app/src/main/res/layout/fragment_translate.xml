@@ -59,6 +59,30 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
+                    <EditText
+                        android:hint="x"
+                        android:cursorVisible="false"
+                        android:textSize="18dp"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/cusm_trans_edittext"
+                        android:layout_weight="0.75"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <EditText
+                        android:hint="y"
+                        android:cursorVisible="false"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:textSize="18dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/cusm_trans_edittext"
+                        android:layout_weight="0.75"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
             <LinearLayout
                 android:layout_marginVertical="5dp"
