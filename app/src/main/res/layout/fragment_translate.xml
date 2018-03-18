@@ -32,27 +32,29 @@
                             android:layout_weight="0.5"
                             android:layout_width="0dp"
                             android:layout_height="match_parent">
-                            <TextView
-                                android:textColor="@color/dark"
-                                android:text="pre"
-                                android:textSize="18dp"
-                                android:gravity="center"
+                            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
+                                app:text="pre"
+                                app:textSize="18dp"
+                                app:textColor="@color/dark"
+                                app:textStrokeWidth="0.1"
+                                android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
-                            <TextView
-                                android:textColor="@color/dark"
-                                android:text="post"
-                                android:textSize="18dp"
-                                android:gravity="center"
+                            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
+                                app:text="post"
+                                app:textSize="18dp"
+                                app:textColor="@color/dark"
+                                app:textStrokeWidth="0.1"
+                                android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
                     <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
-                        android:text="translate"
-                        android:textSize="18dp"
+                        app:text="translate"
+                        app:textSize="18dp"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="@color/dark"
+                        app:textColor="@color/dark"
+                        app:textStrokeWidth="0.1"
                         android:background="@drawable/cusm_trans_edittext"
                         android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
