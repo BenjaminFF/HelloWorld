@@ -87,20 +87,102 @@
                         android:layout_height="match_parent" />
                 </LinearLayout>
             <LinearLayout
+                android:background="@drawable/cusm_trans_edittext"
+                android:orientation="vertical"
                 android:layout_marginVertical="5dp"
                 android:layout_marginHorizontal="10dp"
-                android:weightSum="3"
-                android:layout_weight="2"
+                android:weightSum="4"
+                android:layout_weight="2.7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:weightSum="6.5"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
+                        android:id="@+id/matrix_result"
+                        app:column="3"
+                        app:row="3"
+                        app:cellWidth="20dp"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:textColor="@color/dark"
+                        android:text="="
+                        android:gravity="center"
+                        android:layout_weight="0.5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
+                        android:id="@+id/matrix_origin"
+                        app:column="3"
+                        app:row="3"
+                        app:cellWidth="20dp"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
+                        android:id="@+id/matrix_transform"
+                        app:column="3"
+                        app:row="3"
+                        app:cellWidth="20dp"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:weightSum="6.5"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <TextView
+                        android:textColor="@color/dark"
+                        android:text="result"
+                        android:gravity="center"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <View
+                        android:layout_weight="0.5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/matrix_origin_text"
+                        android:textColor="@color/dark"
+                        android:text="origin"
+                        android:gravity="center"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/matrix_transform_text"
+                        android:textColor="@color/dark"
+                        android:text="transform"
+                        android:gravity="center"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:weightSum="4"
+                android:layout_weight="2.3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
                 <LinearLayout
                     android:background="@drawable/cusm_trans_edittext"
                     android:weightSum="4.5"
-                    android:layout_weight="2.25"
+                    android:layout_weight="3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
                     <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
-                        android:id="@+id/matrix_result"
+                        android:id="@+id/matrix_view_result"
                         app:column="1"
                         app:row="3"
                         app:cellWidth="20dp"
@@ -115,50 +197,39 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                     <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
-                        android:id="@+id/matrix_origin"
-                        app:column="1"
-                        app:row="3"
-                        app:cellWidth="20dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent" />
-                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
-                        android:id="@+id/matrix_process"
+                        android:id="@+id/matrix_view_transform"
                         app:column="3"
                         app:row="3"
                         app:cellWidth="20dp"
                         android:layout_weight="2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
+                        android:id="@+id/matrix_view_origin"
+                        app:column="1"
+                        app:row="3"
+                        app:cellWidth="20dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
-
                 <TextView
-                    android:text="enter"
-                    android:gravity="center"
-                    android:textColor="@color/dark"
-                    android:textSize="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/cusm_trans_edittext"
-                    android:id="@+id/enter_text"
-                    android:clickable="true"
-                    android:layout_weight="0.75"
+                    android:text="enter"
+                    android:textColor="@color/dark"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/cusm_trans_edittext"
-                android:layout_weight="6"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
-            <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="10dp"
-                android:id="@+id/rocord_text"
                 android:background="@drawable/cusm_trans_edittext"
-                android:layout_weight="3"
+                android:layout_weight="6"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
         </LinearLayout>

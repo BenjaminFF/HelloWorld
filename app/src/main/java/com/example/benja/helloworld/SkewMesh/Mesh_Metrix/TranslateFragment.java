@@ -25,11 +25,15 @@ import com.example.benja.helloworld.R;
 public class TranslateFragment extends Fragment {
 
 
-    private MetrixView matrix_origin,matrix_process,matrix_result;
+    private MetrixView matrix_origin,matrix_transform,matrix_result;
+
+    private MetrixView metrixView_orgin,metrixView_transform,metrixView_result;
 
     private EditText coordx_text,coordy_text;
 
     private String coordx,coordy;
+
+    private TextView metrix_orgin_text,metrix_transform_text;
 
     private int element_metrix[][]={{1,0,0},{0,1,0},{0,0,1}};
 
@@ -61,20 +65,15 @@ public class TranslateFragment extends Fragment {
         });
 
         matrix_result=v.findViewById(R.id.matrix_result);
-        matrix_result.setMatrix(new int[][]{{300},{300},{1}});
+        matrix_result.setMatrix(element_metrix);
         matrix_origin=v.findViewById(R.id.matrix_origin);
-        matrix_origin.setMatrix(new int[][]{{300},{300},{1}});
-        matrix_process=v.findViewById(R.id.matrix_process);
-        matrix_process.setMatrix(element_metrix);
-        TextView enter=v.findViewById(R.id.enter_text);
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Matrix matrix=new Matrix();
-                matrix.postScale(0.5f,0.5f);
-                Log.i("Test",matrix.toString());
-            }
-        });
+        matrix_origin.setMatrix(element_metrix);
+        matrix_transform=v.findViewById(R.id.matrix_transform);
+        matrix_transform.setMatrix(element_metrix);
+
+        metrix_orgin_text=v.findViewById(R.id.matrix_origin_text);
+        metrix_transform_text=v.findViewById(R.id.matrix_transform_text);
+
         coordx_text=v.findViewById(R.id.coordx_text);
         coordx_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -133,13 +132,15 @@ public class TranslateFragment extends Fragment {
 
     private void setAnimationforIndex1(){
         float curtranslationX_mo=matrix_origin.getTranslationX();
-        float dx=matrix_process.getRight()-matrix_origin.getRight();
+        float dx=matrix_transform.getRight()-matrix_origin.getRight();
         ObjectAnimator mo_transr = ObjectAnimator.ofFloat(matrix_origin, "translationX", curtranslationX_mo,dx);
+        ObjectAnimator t_mo_transr=ObjectAnimator.ofFloat(metrix_orgin_text, "translationX", curtranslationX_mo,dx);
 
-        float curtranslationX_mp=matrix_process.getTranslationX();
-        ObjectAnimator mp_transl = ObjectAnimator.ofFloat(matrix_process, "translationX", curtranslationX_mp,matrix_origin.getLeft()-matrix_process.getLeft());
+        float curtranslationX_mp=matrix_transform.getTranslationX();
+        ObjectAnimator mp_transl = ObjectAnimator.ofFloat(matrix_transform, "translationX", curtranslationX_mp,matrix_origin.getLeft()-matrix_transform.getLeft());
+        ObjectAnimator t_mp_transl = ObjectAnimator.ofFloat(metrix_transform_text, "translationX", curtranslationX_mp,matrix_origin.getLeft()-matrix_transform.getLeft());
         AnimatorSet animatorSet1=new AnimatorSet();
-        animatorSet1.play(mo_transr).with(mp_transl);
+        animatorSet1.play(mo_transr).with(mp_transl).with(t_mo_transr).with(t_mp_transl);
         animatorSet1.setDuration(1000);
         animatorSet1.start();
     }
@@ -147,12 +148,14 @@ public class TranslateFragment extends Fragment {
     private void setAnimationforIndex0(){
         float curtranslationX_mo=matrix_origin.getTranslationX();
         ObjectAnimator mo_transr = ObjectAnimator.ofFloat(matrix_origin, "translationX", curtranslationX_mo,0);
+        ObjectAnimator t_mo_transr = ObjectAnimator.ofFloat(metrix_orgin_text, "translationX", curtranslationX_mo,0);
 
-        float curtranslationX_mp=matrix_process.getTranslationX();
-        ObjectAnimator mp_transl = ObjectAnimator.ofFloat(matrix_process, "translationX", curtranslationX_mp,0);
+        float curtranslationX_mp=matrix_transform.getTranslationX();
+        ObjectAnimator mp_transl = ObjectAnimator.ofFloat(matrix_transform, "translationX", curtranslationX_mp,0);
+        ObjectAnimator t_mp_transl = ObjectAnimator.ofFloat(metrix_transform_text, "translationX", curtranslationX_mp,0);
         AnimatorSet animatorSet1=new AnimatorSet();
         animatorSet1.setDuration(1000);
-        animatorSet1.play(mo_transr).with(mp_transl);
+        animatorSet1.play(mo_transr).with(mp_transl).with(t_mo_transr).with(t_mp_transl);
         animatorSet1.start();
     }
 }

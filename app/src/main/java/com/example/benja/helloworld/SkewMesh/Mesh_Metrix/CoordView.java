@@ -31,7 +31,6 @@ public class CoordView extends View{
 
         point=new Point(300,300);
 
-        Matrix matrix=getMatrix();
 
         coordPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         coordPaint.setStyle(Paint.Style.STROKE);
