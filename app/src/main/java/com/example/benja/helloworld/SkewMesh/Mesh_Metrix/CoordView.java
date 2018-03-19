@@ -3,6 +3,7 @@ package com.example.benja.helloworld.SkewMesh.Mesh_Metrix;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -29,6 +30,8 @@ public class CoordView extends View{
         super(context, attrs);
 
         point=new Point(300,300);
+
+        Matrix matrix=getMatrix();
 
         coordPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         coordPaint.setStyle(Paint.Style.STROKE);

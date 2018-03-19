@@ -41,14 +41,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                             <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
-                                app:text="third"
-                                app:textSize="18dp"
-                                app:textColor="@color/dark"
-                                app:textStrokeWidth="0.1"
-                                android:layout_marginLeft="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-                            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
                                 app:text="post"
                                 app:textSize="18dp"
                                 app:textColor="@color/dark"
@@ -69,6 +61,7 @@
                         android:layout_height="match_parent" />
                     <EditText
                         android:hint="x"
+                        android:id="@+id/coordx_text"
                         android:cursorVisible="false"
                         android:textSize="18dp"
                         android:inputType="number"
@@ -81,6 +74,7 @@
                         android:layout_height="match_parent" />
                     <EditText
                         android:hint="y"
+                        android:id="@+id/coordy_text"
                         android:cursorVisible="false"
                         android:inputType="number"
                         android:maxLength="3"
@@ -109,7 +103,7 @@
                         android:id="@+id/matrix_result"
                         app:column="1"
                         app:row="3"
-                        app:cellWidth="18dp"
+                        app:cellWidth="20dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
@@ -124,7 +118,7 @@
                         android:id="@+id/matrix_origin"
                         app:column="1"
                         app:row="3"
-                        app:cellWidth="18dp"
+                        app:cellWidth="20dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
@@ -132,7 +126,7 @@
                         android:id="@+id/matrix_process"
                         app:column="3"
                         app:row="3"
-                        app:cellWidth="18dp"
+                        app:cellWidth="20dp"
                         android:layout_weight="2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />

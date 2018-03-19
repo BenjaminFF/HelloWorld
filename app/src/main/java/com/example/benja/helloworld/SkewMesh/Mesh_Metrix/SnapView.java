@@ -35,7 +35,7 @@ public class SnapView extends ViewGroup{
 
     private boolean isScrolling=false;
 
-    private int finalX,finalY;
+    private SnapViewListener snapViewListener;
 
     public SnapView(Context context) {
         super(context);
@@ -87,7 +87,6 @@ public class SnapView extends ViewGroup{
             invalidate();
             if (mScroller.getFinalX()==mScroller.getCurrX()&&mScroller.getFinalY()==mScroller.getCurrY()){
                 isScrolling=false;
-                Log.i("Test","final");
             }
         }
     }
@@ -96,18 +95,18 @@ public class SnapView extends ViewGroup{
         if (Direction==1){
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,2000);
+                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,1000);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),2000);
+                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),1000);
             }
             childindex++;
             invalidate();
         }else{
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,2000);
+                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,1000);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),2000);
+                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),1000);
             }
             childindex--;
             invalidate();
@@ -118,7 +117,7 @@ public class SnapView extends ViewGroup{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
                 if (childindex==0){
                     Direction=1;        //向左移动，childindex++
                 }else if (childindex==getChildCount()-1){
@@ -126,6 +125,7 @@ public class SnapView extends ViewGroup{
                 }
                 if (!isScrolling) {
                     StartScroll();
+                    snapViewListener.OnSnapViewClickListener(childindex);
                 }
                 return true;
                 default:break;
@@ -136,5 +136,9 @@ public class SnapView extends ViewGroup{
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return true;
+    }
+
+    public void setSnapViewListener(SnapViewListener snapViewListener){
+        this.snapViewListener=snapViewListener;
     }
 }
