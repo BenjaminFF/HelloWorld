@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.Toast;
@@ -32,6 +33,10 @@ public class SnapView extends ViewGroup{
 
     private int childindex=0;
 
+    private boolean isScrolling=false;
+
+    private int finalX,finalY;
+
     public SnapView(Context context) {
         super(context);
     }
@@ -40,7 +45,7 @@ public class SnapView extends ViewGroup{
         super(context, attrs);
         TypedArray a=context.getTheme().obtainStyledAttributes(attrs, R.styleable.SnapView,0,0);
         Orientation=a.getInteger(R.styleable.SnapView_Orientation,0);
-        mScroller=new Scroller(context,new BounceInterpolator());
+        mScroller=new Scroller(context,new LinearInterpolator());
         Direction=1;
     }
 
@@ -80,36 +85,48 @@ public class SnapView extends ViewGroup{
         if (mScroller.computeScrollOffset()){
             scrollTo(mScroller.getCurrX(),mScroller.getCurrY());
             invalidate();
+            if (mScroller.getFinalX()==mScroller.getCurrX()&&mScroller.getFinalY()==mScroller.getCurrY()){
+                isScrolling=false;
+                Log.i("Test","final");
+            }
         }
     }
 
-    public void StartScroll(){   //向左或向上 Direction=0
-        if (childindex==0){
+    public void StartScroll(){
+        if (Direction==1){
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,1000);
+                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,2000);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),1000);
+                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),2000);
             }
             childindex++;
             invalidate();
         }else{
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,400);
+                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,2000);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),400);
+                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),2000);
             }
             childindex--;
             invalidate();
         }
+        isScrolling=true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                StartScroll();
+                if (childindex==0){
+                    Direction=1;        //向左移动，childindex++
+                }else if (childindex==getChildCount()-1){
+                    Direction=0;
+                }
+                if (!isScrolling) {
+                    StartScroll();
+                }
                 return true;
                 default:break;
         }
