@@ -132,4 +132,8 @@ public class MetrixView extends View {
         myMatrix.matrix[1][2]=y;
         invalidate();
     }
+
+    public MyMatrix getMyMatrix() {
+        return myMatrix;
+    }
 }

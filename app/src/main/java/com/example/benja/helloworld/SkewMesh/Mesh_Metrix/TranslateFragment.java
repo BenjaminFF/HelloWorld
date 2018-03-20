@@ -29,9 +29,9 @@ public class TranslateFragment extends Fragment {
 
     private MetrixView metrixView_orgin,metrixView_transform,metrixView_result;
 
-    private EditText coordx_text,coordy_text;
+    private EditText coordx_text,coordy_text,originx_text,originy_text;
 
-    private String coordx,coordy;
+    private String coordx,coordy,originx,originy;
 
     private TextView metrix_orgin_text,metrix_transform_text;
 
@@ -56,6 +56,8 @@ public class TranslateFragment extends Fragment {
     private void initComponent(View v){
         coordx=new String();
         coordy=new String();
+        originx=new String();
+        originy=new String();
         prepostsnapView=v.findViewById(R.id.prepost_snapView);
         prepostsnapView.setSnapViewListener(new SnapViewListener() {
             @Override
@@ -77,16 +79,6 @@ public class TranslateFragment extends Fragment {
         metrix_transform_text=v.findViewById(R.id.matrix_transform_text);
 
         coordx_text=v.findViewById(R.id.coordx_text);
-        coordx_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    coordx_text.setHint("x");
-                }else {
-                    coordx_text.setHint(null);
-                }
-            }
-        });
         coordx_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,21 +92,11 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 coordx=s.toString();
-                translateXform();
+                translateXform(coordx,coordy,matrix_transform);
             }
         });
 
         coordy_text=v.findViewById(R.id.coordy_text);
-        coordy_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    coordy_text.setHint("y");
-                }else {
-                    coordy_text.setHint(null);
-                }
-            }
-        });
         coordy_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,7 +111,45 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 coordy = s.toString();
-                translateYform();
+                translateYform(coordx,coordy,matrix_transform);
+            }
+        });
+
+        originx_text=v.findViewById(R.id.originx_text);
+        originx_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                originx = s.toString();
+                translateYform(originx,originy,matrix_origin);
+            }
+        });
+
+        originy_text=v.findViewById(R.id.originy_text);
+        originy_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                originy = s.toString();
+                translateYform(originx,originy,matrix_origin);
             }
         });
 
@@ -138,7 +158,13 @@ public class TranslateFragment extends Fragment {
         transformclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (prepostsnapView.getChildindex()==0){
+                    matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().preMultiple(matrix_transform.getMyMatrix());
+                    matrix_result.invalidate();
+                }else if (prepostsnapView.getChildindex()==1){
+                    matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().postMultiple(matrix_transform.getMyMatrix());
+                    matrix_result.invalidate();
+                }
             }
         });
     }
@@ -172,23 +198,23 @@ public class TranslateFragment extends Fragment {
         animatorSet1.start();
     }
 
-    private void translateXform(){
-        if (!coordx.equals("")&&!coordy.equals("")){
-            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),Integer.valueOf(coordy));
-        }else if (coordx.equals("")&&!coordy.equals("")){
-            matrix_transform.setMatrixbyTranslate(0,Integer.valueOf(coordy));
-        }else if (coordy.equals("")&&coordy.equals("")){
-            matrix_transform.setMatrixbyTranslate(0,0);
+    private void translateXform(String x,String y,MetrixView metrixView){
+        if (!x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(coordy));
+        }else if (x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyTranslate(0,Integer.valueOf(y));
+        }else if (x.equals("")&&y.equals("")){
+            metrixView.setMatrixbyTranslate(0,0);
         }
     }
 
-    private void translateYform(){
-        if (!coordx.equals("")&&!coordy.equals("")){
-            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),Integer.valueOf(coordy));
-        }else if (coordy.equals("")&&!coordx.equals("")){
-            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),0);
-        }else if (coordy.equals("")&&coordy.equals("")){
-            matrix_transform.setMatrixbyTranslate(0,0);
+    private void translateYform(String x,String y,MetrixView metrixView){
+        if (!x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(y));
+        }else if (y.equals("")&&!x.equals("")){
+            metrixView.setMatrixbyTranslate(Integer.valueOf(x),0);
+        }else if (x.equals("")&&y.equals("")){
+            metrixView.setMatrixbyTranslate(0,0);
         }
     }
 }

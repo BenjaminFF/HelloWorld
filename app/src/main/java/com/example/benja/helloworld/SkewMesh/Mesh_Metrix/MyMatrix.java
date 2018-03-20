@@ -27,4 +27,37 @@ public class MyMatrix {
             }
         }
     }
+
+    public int[][] preMultiple(MyMatrix myMatrix){   //column=myMatrix.row
+        int[][] matrix=new int[row][myMatrix.column];
+
+        for(int i=0;i<row;i++){
+           for(int j=0;j<myMatrix.column;j++){
+               matrix[i][j]=0;
+               for(int k=0;k<column;k++){
+                   matrix[i][j]+=this.matrix[i][k]*myMatrix.matrix[k][j];
+               }
+           }
+        }
+        return matrix;
+    }
+
+    public int[][] postMultiple(MyMatrix myMatrix){
+        int[][] matrix=new int[myMatrix.row][this.column];
+
+        for(int i=0;i<myMatrix.row;i++){
+            for(int j=0;j<column;j++){
+                matrix[i][j]=0;
+                for(int k=0;k<column;k++){
+                    matrix[i][j]+=myMatrix.matrix[i][k]*this.matrix[k][j];
+                }
+            }
+        }
+
+        return matrix;
+    }
+
+    public void setMatrix(MyMatrix myMatrix){
+        this.matrix=myMatrix.matrix.clone();
+    }
 }
