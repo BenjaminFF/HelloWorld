@@ -37,6 +37,8 @@ public class TranslateFragment extends Fragment {
 
     private int element_metrix[][]={{1,0,0},{0,1,0},{0,0,1}};
 
+    SnapView prepostsnapView,transformsnapView;
+
     public TranslateFragment() {
         // Required empty public constructor
     }
@@ -52,8 +54,10 @@ public class TranslateFragment extends Fragment {
     }
 
     private void initComponent(View v){
-        final SnapView snapView=v.findViewById(R.id.translate_snapView);
-        snapView.setSnapViewListener(new SnapViewListener() {
+        coordx=new String();
+        coordy=new String();
+        prepostsnapView=v.findViewById(R.id.prepost_snapView);
+        prepostsnapView.setSnapViewListener(new SnapViewListener() {
             @Override
             public void OnSnapViewClickListener(int childindex) {
                 if (childindex==1){
@@ -64,12 +68,10 @@ public class TranslateFragment extends Fragment {
             }
         });
 
+        transformsnapView=v.findViewById(R.id.transform_snapview);
         matrix_result=v.findViewById(R.id.matrix_result);
-        matrix_result.setMatrix(element_metrix);
         matrix_origin=v.findViewById(R.id.matrix_origin);
-        matrix_origin.setMatrix(element_metrix);
         matrix_transform=v.findViewById(R.id.matrix_transform);
-        matrix_transform.setMatrix(element_metrix);
 
         metrix_orgin_text=v.findViewById(R.id.matrix_origin_text);
         metrix_transform_text=v.findViewById(R.id.matrix_transform_text);
@@ -98,6 +100,7 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 coordx=s.toString();
+                translateXform();
             }
         });
 
@@ -125,7 +128,17 @@ public class TranslateFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                coordy=s.toString();
+                coordy = s.toString();
+                translateYform();
+            }
+        });
+
+        TextView transformclick=v.findViewById(R.id.transform_text_click);
+        transformclick.setClickable(true);
+        transformclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -157,5 +170,25 @@ public class TranslateFragment extends Fragment {
         animatorSet1.setDuration(1000);
         animatorSet1.play(mo_transr).with(mp_transl).with(t_mo_transr).with(t_mp_transl);
         animatorSet1.start();
+    }
+
+    private void translateXform(){
+        if (!coordx.equals("")&&!coordy.equals("")){
+            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),Integer.valueOf(coordy));
+        }else if (coordx.equals("")&&!coordy.equals("")){
+            matrix_transform.setMatrixbyTranslate(0,Integer.valueOf(coordy));
+        }else if (coordy.equals("")&&coordy.equals("")){
+            matrix_transform.setMatrixbyTranslate(0,0);
+        }
+    }
+
+    private void translateYform(){
+        if (!coordx.equals("")&&!coordy.equals("")){
+            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),Integer.valueOf(coordy));
+        }else if (coordy.equals("")&&!coordx.equals("")){
+            matrix_transform.setMatrixbyTranslate(Integer.valueOf(coordx),0);
+        }else if (coordy.equals("")&&coordy.equals("")){
+            matrix_transform.setMatrixbyTranslate(0,0);
+        }
     }
 }

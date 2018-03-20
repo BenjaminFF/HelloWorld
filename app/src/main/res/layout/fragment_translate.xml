@@ -27,7 +27,7 @@
                     android:layout_height="0dp">
                         <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
                             android:background="@drawable/cusm_trans_edittext"
-                            android:id="@+id/translate_snapView"
+                            android:id="@+id/prepost_snapView"
                             app:Orientation="Vertical"
                             android:layout_weight="0.5"
                             android:layout_width="0dp"
@@ -37,7 +37,6 @@
                                 app:textSize="18dp"
                                 app:textColor="@color/dark"
                                 app:textStrokeWidth="0.1"
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                             <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
@@ -45,20 +44,31 @@
                                 app:textSize="18dp"
                                 app:textColor="@color/dark"
                                 app:textStrokeWidth="0.1"
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
-                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
-                        app:text="translate"
-                        app:textSize="18dp"
+                    <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView
+                        android:id="@+id/transform_snapview"
                         android:layout_weight="1"
-                        app:textColor="@color/dark"
-                        app:textStrokeWidth="0.1"
                         android:background="@drawable/cusm_trans_edittext"
                         android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent">
+                        <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
+                            app:text="translate"
+                            app:textSize="18dp"
+                            app:textColor="@color/dark"
+                            app:textStrokeWidth="0.1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                        <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyTextView
+                            app:text="scale"
+                            app:textSize="18dp"
+                            app:textColor="@color/dark"
+                            app:textStrokeWidth="0.1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.SnapView>
                     <EditText
                         android:hint="x"
                         android:id="@+id/coordx_text"
@@ -213,16 +223,36 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                 </LinearLayout>
-                <TextView
+                <LinearLayout
+                    android:weightSum="2"
+                    android:orientation="vertical"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/cusm_trans_edittext"
-                    android:text="enter"
-                    android:textColor="@color/dark"
-                    android:textSize="20dp"
-                    android:gravity="center"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/transform_text_click"
+                        android:background="@drawable/cusm_trans_edittext"
+                        android:text="trans"
+                        android:textColor="@color/dark"
+                        android:textSize="18dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp" />
+                    <TextView
+                        android:id="@+id/enter_text_click"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/cusm_trans_edittext"
+                        android:text="enter"
+                        android:textColor="@color/dark"
+                        android:textSize="18dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp" />
+                </LinearLayout>
+
             </LinearLayout>
             <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.CoordView
                 android:layout_marginTop="5dp"

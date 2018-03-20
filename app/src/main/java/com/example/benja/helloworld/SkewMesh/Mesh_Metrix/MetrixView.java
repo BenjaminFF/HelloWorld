@@ -23,7 +23,7 @@ import com.example.benja.helloworld.R;
 public class MetrixView extends View {
     private int row,column;
 
-    private int matrix[][];
+    private MyMatrix myMatrix;
 
     private Path outPath;
 
@@ -51,6 +51,8 @@ public class MetrixView extends View {
         column=a.getInteger(R.styleable.MetrixView_column,-1);
         cellWidth=a.getDimension(R.styleable.MetrixView_cellWidth, MiscUtils.dpToPixel(context,12));
 
+        myMatrix=new MyMatrix(row,column);
+
         paint=new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -65,13 +67,6 @@ public class MetrixView extends View {
         textPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.BLACK);
         targetRect=new RectF();
-
-        matrix=new int[row][column];
-        for(int i=0;i<row;i++){
-            for (int j=0;j<column;j++){
-                matrix[i][j]=0;
-            }
-        }
     }
 
     @Override
@@ -80,7 +75,8 @@ public class MetrixView extends View {
         mWidth=MeasureSpec.getSize(widthMeasureSpec);
         mHeight=MeasureSpec.getSize(heightMeasureSpec);
 
-        textPaint.setTextSize(cellWidth*8/10);
+        textPaint.setTextSize(cellWidth*6/10);
+        textPaint.setLetterSpacing(-0.1f);
         fontMetrics=textPaint.getFontMetrics();
         textPaint.setTextAlign(Paint.Align.CENTER);
     }
@@ -125,14 +121,15 @@ public class MetrixView extends View {
 
                 //(top+bottom)/2-bottom
                 baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);
-                canvas.drawText(matrix[i][j]+"",targetRect.centerX(),baselineY,textPaint);
+                canvas.drawText(myMatrix.matrix[i][j]+"",targetRect.centerX(),baselineY,textPaint);
                 //canvas.drawRect(targetRect,paint);
             }
             canvas.restore();
     }
 
-    public void setMatrix(int[][] matrix) {
-        this.matrix = matrix;
+    public void setMatrixbyTranslate(int x,int y){
+        myMatrix.matrix[0][2]=x;
+        myMatrix.matrix[1][2]=y;
         invalidate();
     }
 }

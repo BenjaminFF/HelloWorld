@@ -95,18 +95,18 @@ public class SnapView extends ViewGroup{
         if (Direction==1){
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,1000);
+                mScroller.startScroll(childview.getLeft(),0,childview.getMeasuredWidth(),0,800);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),1000);
+                mScroller.startScroll(0,childview.getTop(),0,childview.getMeasuredHeight(),800);
             }
             childindex++;
             invalidate();
         }else{
             View childview=getChildAt(childindex);
             if (Orientation==1){
-                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,1000);
+                mScroller.startScroll(childview.getLeft(),0,-childview.getMeasuredWidth(),0,800);
             }else {
-                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),1000);
+                mScroller.startScroll(0,childview.getTop(),0,-childview.getMeasuredHeight(),800);
             }
             childindex--;
             invalidate();
@@ -125,7 +125,9 @@ public class SnapView extends ViewGroup{
                 }
                 if (!isScrolling) {
                     StartScroll();
-                    snapViewListener.OnSnapViewClickListener(childindex);
+                    if (snapViewListener!=null){
+                        snapViewListener.OnSnapViewClickListener(childindex);
+                    }
                 }
                 return true;
                 default:break;
@@ -140,5 +142,9 @@ public class SnapView extends ViewGroup{
 
     public void setSnapViewListener(SnapViewListener snapViewListener){
         this.snapViewListener=snapViewListener;
+    }
+
+    public int getChildindex() {
+        return childindex;
     }
 }
