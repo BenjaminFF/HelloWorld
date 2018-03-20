@@ -206,7 +206,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
                     <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MetrixView
-                        android:id="@+id/matrix_result"
+                        android:id="@+id/matrix_view_result"
                         app:column="1"
                         app:row="3"
                         app:cellWidth="20dp"

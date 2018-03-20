@@ -71,7 +71,7 @@ public class TranslateFragment extends Fragment {
         });
 
         transformsnapView=v.findViewById(R.id.transform_snapview);
-        matrix_result=v.findViewById(R.id.matrix_result);
+        matrix_result=v.findViewById(R.id.matrix_view_transform);
         matrix_origin=v.findViewById(R.id.matrix_origin);
         matrix_transform=v.findViewById(R.id.matrix_transform);
 
@@ -161,6 +161,7 @@ public class TranslateFragment extends Fragment {
                 if (prepostsnapView.getChildindex()==0){
                     matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().preMultiple(matrix_transform.getMyMatrix());
                     matrix_result.invalidate();
+                    Log.i("Test","clicked");
                 }else if (prepostsnapView.getChildindex()==1){
                     matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().postMultiple(matrix_transform.getMyMatrix());
                     matrix_result.invalidate();
@@ -200,7 +201,7 @@ public class TranslateFragment extends Fragment {
 
     private void translateXform(String x,String y,MetrixView metrixView){
         if (!x.equals("")&&!y.equals("")){
-            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(coordy));
+            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(y));
         }else if (x.equals("")&&!y.equals("")){
             metrixView.setMatrixbyTranslate(0,Integer.valueOf(y));
         }else if (x.equals("")&&y.equals("")){
