@@ -71,6 +71,18 @@ public class TranslateFragment extends Fragment {
         });
 
         transformsnapView=v.findViewById(R.id.transform_snapview);
+        transformsnapView.setSnapViewListener(new SnapViewListener() {
+            @Override
+            public void OnSnapViewClickListener(int childindex) {
+                coordx_text.setText("");
+                coordy_text.setText("");
+                originx_text.setText("");
+                originy_text.setText("");
+                matrix_transform.getMyMatrix().initMatrix();
+                matrix_origin.getMyMatrix().setMatrix(matrix_result.getMyMatrix());
+            }
+        });
+
         matrix_result=v.findViewById(R.id.matrix_view_transform);
         matrix_origin=v.findViewById(R.id.matrix_origin);
         matrix_transform=v.findViewById(R.id.matrix_transform);
@@ -92,7 +104,12 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 coordx=s.toString();
-                translateXform(coordx,coordy,matrix_transform);
+                if (transformsnapView.getChildindex()==0){
+                    translateXform(coordx,coordy,matrix_transform);
+                }else if (transformsnapView.getChildindex()==1){
+                    scaleXform(coordx,coordy,matrix_transform);
+                }
+
             }
         });
 
@@ -111,7 +128,11 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 coordy = s.toString();
-                translateYform(coordx,coordy,matrix_transform);
+                if (transformsnapView.getChildindex()==0){
+                    translateYform(coordx,coordy,matrix_transform);
+                }else if (transformsnapView.getChildindex()==1){
+                    scaleYform(coordx,coordy,matrix_transform);
+                }
             }
         });
 
@@ -130,7 +151,11 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 originx = s.toString();
-                translateYform(originx,originy,matrix_origin);
+                if (transformsnapView.getChildindex()==0){
+                    translateXform(originx,originy,matrix_origin);
+                }else if(transformsnapView.getChildindex()==1){
+                    scaleXform(originx,originy,matrix_origin);
+                }
             }
         });
 
@@ -149,7 +174,11 @@ public class TranslateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 originy = s.toString();
-                translateYform(originx,originy,matrix_origin);
+                if (transformsnapView.getChildindex()==0){
+                    translateYform(originx,originy,matrix_origin);
+                }else if (transformsnapView.getChildindex()==1){
+                    scaleYform(originx,originy,matrix_origin);
+                }
             }
         });
 
@@ -201,9 +230,9 @@ public class TranslateFragment extends Fragment {
 
     private void translateXform(String x,String y,MetrixView metrixView){
         if (!x.equals("")&&!y.equals("")){
-            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(y));
+            metrixView.setMatrixbyTranslate(Float.valueOf(x),Float.valueOf(y));
         }else if (x.equals("")&&!y.equals("")){
-            metrixView.setMatrixbyTranslate(0,Integer.valueOf(y));
+            metrixView.setMatrixbyTranslate(0,Float.valueOf(y));
         }else if (x.equals("")&&y.equals("")){
             metrixView.setMatrixbyTranslate(0,0);
         }
@@ -211,11 +240,31 @@ public class TranslateFragment extends Fragment {
 
     private void translateYform(String x,String y,MetrixView metrixView){
         if (!x.equals("")&&!y.equals("")){
-            metrixView.setMatrixbyTranslate(Integer.valueOf(x),Integer.valueOf(y));
+            metrixView.setMatrixbyTranslate(Float.valueOf(x),Float.valueOf(y));
         }else if (y.equals("")&&!x.equals("")){
-            metrixView.setMatrixbyTranslate(Integer.valueOf(x),0);
+            metrixView.setMatrixbyTranslate(Float.valueOf(x),0);
         }else if (x.equals("")&&y.equals("")){
             metrixView.setMatrixbyTranslate(0,0);
+        }
+    }
+
+    private void scaleXform(String x,String y,MetrixView metrixView){
+        if (!x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyScale(Float.valueOf(x),Float.valueOf(y));
+        }else if (x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyScale(1,Float.valueOf(y));
+        }else if (x.equals("")&&y.equals("")){
+            metrixView.setMatrixbyScale(1,1);
+        }
+    }
+
+    private void scaleYform(String x,String y,MetrixView metrixView){
+        if (!x.equals("")&&!y.equals("")){
+            metrixView.setMatrixbyScale(Float.valueOf(x),Float.valueOf(y));
+        }else if (y.equals("")&&!x.equals("")){
+            metrixView.setMatrixbyScale(Float.valueOf(x),1);
+        }else if (x.equals("")&&y.equals("")){
+            metrixView.setMatrixbyScale(1,1);
         }
     }
 }

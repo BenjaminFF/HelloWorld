@@ -121,15 +121,29 @@ public class MetrixView extends View {
 
                 //(top+bottom)/2-bottom
                 baselineY=(int)(targetRect.centerY()-(fontMetrics.top+fontMetrics.bottom)/2);
-                canvas.drawText(myMatrix.matrix[i][j]+"",targetRect.centerX(),baselineY,textPaint);
+                String floatString=String.valueOf(myMatrix.matrix[i][j]);
+                Log.i("Test",floatString);
+                int pointindex=floatString.indexOf(".");
+                int Decimalpart=Integer.valueOf(floatString.substring(pointindex+1,floatString.length()));
+                if (Decimalpart!=0){
+                    canvas.drawText(floatString,targetRect.centerX(),baselineY,textPaint);
+                }else {
+                    canvas.drawText(floatString.substring(0,pointindex),targetRect.centerX(),baselineY,textPaint);
+                }
                 //canvas.drawRect(targetRect,paint);
             }
             canvas.restore();
     }
 
-    public void setMatrixbyTranslate(int x,int y){
+    public void setMatrixbyTranslate(float x,float y){
         myMatrix.matrix[0][2]=x;
         myMatrix.matrix[1][2]=y;
+        invalidate();
+    }
+
+    public void setMatrixbyScale(float x,float y){
+        myMatrix.matrix[0][0]=x;
+        myMatrix.matrix[1][1]=y;
         invalidate();
     }
 
