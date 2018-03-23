@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.example.benja.helloworld.R;
@@ -84,19 +85,20 @@ public class MyImageView extends View {
         switch (mScaleType){
             case CENTER:
                 mDrawableMatrix=mMatrix;
-                dx=(vWidth-dWidth)/2;
-                dy=(vHeight-dHeight)/2;
+                dx=(vWidth-dWidth)*0.5f;
+                dy=(vHeight-dHeight)*0.5f;
                 mDrawableMatrix.setTranslate(dx,dy);
                 break;
             case CENTER_CROP:
                 mDrawableMatrix=mMatrix;
-                if (dWidth/dHeight>vWidth/vHeight){
-                    scale=vHeight/dHeight;
-                    dx=(vWidth-dWidth*scale)/2;
+                if (dWidth*vHeight>vWidth*dHeight){
+                    scale=(float)vHeight/(float)dHeight;
+                    dx=(vWidth-dWidth*scale)*0.5f;
                     dy=0;
+                    Log.i("Test","dy=0");
                 }else{
-                    scale=vWidth/dWidth;
-                    dy=(vHeight-dHeight*scale)/2;
+                    scale=(float)vWidth/(float)dWidth;
+                    dy=(vHeight-dHeight*scale)*0.5f;
                     dx=0;
                 }
                 mDrawableMatrix.setScale(scale,scale);
