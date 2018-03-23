@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +60,8 @@ public class Rotate3dView extends ImageView{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        //setImageDrawable();
 
         /*matrix.reset();
         camera.save();

@@ -32,5 +32,6 @@
             <enum name="CenterCrop" value="1"/>
             <enum name="Center_Inside" value="2"/>
         </attr>
+        <attr name="src" format="reference"/>
     </declare-styleable>
 </resources>

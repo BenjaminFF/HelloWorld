@@ -59,14 +59,16 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
             </LinearLayout>
-            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.Rotate3dView
+            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyImageView
                 android:layout_weight="5.5"
                 android:layout_marginHorizontal="10dp"
+                app:src="@drawable/android_camera2"
+                app:ScaleType="Center"
                 android:background="@drawable/cusm_trans_edittext"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
-            </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.Rotate3dView>
+            </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyImageView>
             <LinearLayout
                 android:layout_marginBottom="10dp"
                 android:layout_weight="5.5"
