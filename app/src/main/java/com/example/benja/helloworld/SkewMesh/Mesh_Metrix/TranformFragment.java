@@ -3,7 +3,6 @@ package com.example.benja.helloworld.SkewMesh.Mesh_Metrix;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -12,9 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.benja.helloworld.R;
@@ -22,7 +19,7 @@ import com.example.benja.helloworld.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TranslateFragment extends Fragment {
+public class TranformFragment extends Fragment {
 
 
     private MetrixView matrix_origin,matrix_transform,matrix_result;
@@ -39,7 +36,7 @@ public class TranslateFragment extends Fragment {
 
     SnapView prepostsnapView,transformsnapView;
 
-    public TranslateFragment() {
+    public TranformFragment() {
         // Required empty public constructor
     }
 
@@ -48,7 +45,7 @@ public class TranslateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_translate, container, false);
+        View v=inflater.inflate(R.layout.fragment_transform, container, false);
         initComponent(v);
         return v;
     }

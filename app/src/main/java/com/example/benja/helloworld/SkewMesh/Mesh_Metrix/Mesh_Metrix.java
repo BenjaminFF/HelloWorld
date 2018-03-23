@@ -16,14 +16,14 @@ public class Mesh_Metrix extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mesh__metrix);
         RotateFragment rotateFragment=new RotateFragment();
-        SkewFragment skewFragment=new SkewFragment();
-        TranslateFragment translateFragment=new TranslateFragment();
+        CameraFragment cameraFragment =new CameraFragment();
+        TranformFragment tranformFragment =new TranformFragment();
         ViewPager viewPager=findViewById(R.id.mesh_metrix_pager);
 
         ArrayList<Fragment> fragments=new ArrayList<>();
         fragments.add(rotateFragment);
-        fragments.add(skewFragment);
-        fragments.add(translateFragment);
+        fragments.add(cameraFragment);
+        fragments.add(tranformFragment);
         MeshMetrixPagerAdapter adapter=new MeshMetrixPagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(adapter);
     }

@@ -44,6 +44,7 @@ public class SnapView extends ViewGroup{
     public SnapView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         TypedArray a=context.getTheme().obtainStyledAttributes(attrs, R.styleable.SnapView,0,0);
+        a.recycle();
         Orientation=a.getInteger(R.styleable.SnapView_Orientation,0);
         mScroller=new Scroller(context,new LinearInterpolator());
         Direction=1;

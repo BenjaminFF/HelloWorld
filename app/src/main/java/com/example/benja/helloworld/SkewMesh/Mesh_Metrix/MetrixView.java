@@ -53,6 +53,8 @@ public class MetrixView extends View {
 
         myMatrix=new MyMatrix(row,column);
 
+        a.recycle();
+
         paint=new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);

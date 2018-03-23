@@ -49,6 +49,8 @@ public class MyTextView extends View {
 
         text=a.getString(R.styleable.MyTextView_text);
 
+        a.recycle();
+
         textpaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         textpaint.setTextAlign(Paint.Align.CENTER);
         textpaint.setTextSize(textSize);
