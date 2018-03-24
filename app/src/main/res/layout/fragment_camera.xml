@@ -58,17 +58,30 @@
                     android:layout_weight="1.5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
+                <TextView
+                    android:text="start"
+                    android:textColor="@color/dark"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/start_rotate_text"
+                    android:gravity="center"
+                    android:background="@drawable/cusm_trans_edittext"
+                    android:clickable="true"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
             </LinearLayout>
-            <com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyImageView
+            <ImageView
                 android:layout_weight="5.5"
+                android:id="@+id/myImageView"
                 android:layout_marginHorizontal="10dp"
-                app:src="@drawable/android_camera2"
-                app:ScaleType="CenterCrop"
+                android:src="@drawable/android_camera"
+                android:scaleType="centerCrop"
                 android:background="@drawable/cusm_trans_edittext"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
-            </com.example.benja.helloworld.SkewMesh.Mesh_Metrix.MyImageView>
+            </ImageView>
             <LinearLayout
                 android:layout_marginBottom="10dp"
                 android:layout_weight="5.5"
