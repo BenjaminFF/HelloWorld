@@ -187,7 +187,6 @@ public class TranformFragment extends Fragment {
                 if (prepostsnapView.getChildindex()==0){
                     matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().preMultiple(matrix_transform.getMyMatrix());
                     matrix_result.invalidate();
-                    Log.i("Test","clicked");
                 }else if (prepostsnapView.getChildindex()==1){
                     matrix_result.getMyMatrix().matrix=matrix_origin.getMyMatrix().postMultiple(matrix_transform.getMyMatrix());
                     matrix_result.invalidate();

@@ -2,6 +2,7 @@ package com.example.benja.helloworld.SkewMesh.Mesh_Metrix;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -147,5 +148,10 @@ public class SnapView extends ViewGroup{
 
     public int getChildindex() {
         return childindex;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
     }
 }

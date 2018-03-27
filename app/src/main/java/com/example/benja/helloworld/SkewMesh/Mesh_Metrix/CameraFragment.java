@@ -36,9 +36,8 @@ public class CameraFragment extends Fragment {
             public void onClick(View v) {
                 Rotate3dAnimation rotate3dAnimation=new Rotate3dAnimation(getContext(),0,360,imageView.getWidth()/2,imageView.getHeight()/2,0,false);
                 rotate3dAnimation.setInterpolator(new LinearInterpolator());
-                rotate3dAnimation.setDuration(3000);
+                rotate3dAnimation.setDuration(10000);
                 imageView.startAnimation(rotate3dAnimation);
-                Log.i("Test",imageView.getHeight()/2+"");
             }
         });
         return v;

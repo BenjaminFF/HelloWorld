@@ -36,7 +36,7 @@
     </declare-styleable>
 
     <declare-styleable name="Rotate3dView">
-        <attr name="Orientation" format="enum">
+        <attr name="orientation" format="enum">
             <enum name="Vertical" value="0"/>
             <enum name="Horizontal" value="1"/>
         </attr>
